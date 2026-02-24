@@ -1,0 +1,767 @@
+<!-- relatorio_fairness.html  |  Modelo (MVP) de Relatório de Fairness/Equidade
+     Tecnologias: HTML + Bootstrap 5 + JS + Chart.js (CDN)
+     Obs.: Este relatório é para auditoria/qualidade do processo. A IA recomenda e explica — não decide contratação.
+-->
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Relatório de Fairness (Equidade) — IA de Matching</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --azul:#0d6efd;
+      --bg:#ffffff;
+      --borda: rgba(0,0,0,.08);
+      --suave:#f6f8fa;
+    }
+    body{ background: var(--bg); color:#1b1f23; }
+    .hero{
+      background: linear-gradient(135deg, #eaf2ff, #ffffff);
+      border-bottom: 1px solid var(--borda);
+    }
+    .rounded-4{ border-radius: 1rem !important; }
+    .card{ border: 1px solid var(--borda); }
+    .badge-soft{
+      background:#eef4ff;
+      color:#1b4fbf;
+      border:1px solid rgba(13,110,253,.15);
+    }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace; }
+    .mini{
+      background: var(--suave);
+      border:1px solid var(--borda);
+      border-radius:.9rem;
+      padding:.75rem;
+    }
+    .kpi{
+      display:flex; gap:.75rem; align-items:flex-start;
+      padding:.9rem; border-radius:1rem;
+      border:1px solid var(--borda); background:#fff;
+    }
+    .kpi .ico{
+      width:42px; height:42px; border-radius:.9rem;
+      background: var(--suave); border:1px solid var(--borda);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .kpi .val{ font-weight:800; font-size: 1.25rem; line-height:1.1; }
+    .kpi .lbl{ color:#6c757d; font-size:.9rem; }
+    .sec-title{
+      display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+    }
+    .sec-title h2{ margin:0; }
+    .help{
+      font-size:.9rem; color:#6c757d;
+    }
+    .hr-soft{ border-top: 1px solid var(--borda); }
+    .table thead th{ background:#f8fafc; }
+    .alert-soft{
+      background:#f7fbff; border:1px solid rgba(13,110,253,.18);
+      border-radius:1rem;
+    }
+    @media print{
+      .no-print{ display:none !important; }
+      .card{ box-shadow:none !important; }
+      body{ background:#fff; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Topbar -->
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top no-print">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-shield-check"></i> Relatório de Fairness (Equidade)
+      </a>
+      <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" id="btnCopiarResumo">
+          <i class="bi bi-clipboard"></i> Copiar resumo
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="window.print()">
+          <i class="bi bi-printer"></i> Imprimir/PDF
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container py-5">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-6 fw-bold mb-2">
+            Auditoria de Equidade e Qualidade do Matching por IA
+          </h1>
+          <p class="lead mb-3">
+            Modelo de relatório para monitorar consistência, taxas do funil e sinais de viés do score de aderência
+            (currículo × vaga). A IA recomenda e explica — decisão final sempre humana.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge badge-soft"><i class="bi bi-clock"></i> Janela: <span id="txtPeriodo">—</span></span>
+            <span class="badge badge-soft"><i class="bi bi-briefcase"></i> Vagas analisadas: <span id="txtQtdVagas">—</span></span>
+            <span class="badge badge-soft"><i class="bi bi-person-lines-fill"></i> Candidaturas: <span id="txtCands">—</span></span>
+            <span class="badge badge-soft"><i class="bi bi-robot"></i> Modelo IA: <span id="txtModeloIA">—</span></span>
+          </div>
+
+          <div class="mt-3 help" id="txtFonte">
+            Fonte de dados: exemplo local (para MVP). No produto, alimentar via API interna/SQL agregada.
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card rounded-4 shadow-sm">
+            <div class="card-body p-4">
+              <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-triangle"></i> O que este relatório procura</h5>
+              <ul class="mb-0">
+                <li>Detectar distorções no funil (ex.: “trava de aderência” muito alta)</li>
+                <li>Verificar consistência (mesmo perfil → score parecido)</li>
+                <li>Monitorar drift (mudanças no score ao longo do tempo)</li>
+                <li>Gerar ações recomendadas (ajustes de prompts/limiares)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+
+    <!-- 1) KPIs -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-speedometer2"></i> KPIs de Equidade (visão rápida)</h2>
+        <span class="help">Use metas/limiares simples (MVP) e evolua depois.</span>
+      </div>
+
+      <div class="row g-3" id="kpis">
+        <!-- Preenchido via JS -->
+      </div>
+
+      <div class="alert alert-soft mt-3 mb-0">
+        <div class="d-flex gap-2">
+          <div><i class="bi bi-info-circle"></i></div>
+          <div>
+            <strong>Boa prática:</strong> medir fairness sem coletar dados sensíveis.
+            Comece por estabilidade do score, taxas do funil e motivos de trava. Se a organização for medir por grupos,
+            faça com base legal/consentimento e uso estritamente de auditoria (nunca para excluir pessoas).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) Distribuição de Scores -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-bar-chart"></i> Distribuição de scores (aderência)</h2>
+        <div class="no-print d-flex gap-2">
+          <select class="form-select form-select-sm" id="selVagaScores" style="max-width:320px"></select>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card rounded-4 shadow-sm">
+            <div class="card-body p-4">
+              <canvas id="chartHist"></canvas>
+              <div class="help mt-2">
+                Leituras comuns:
+                <span class="mono">muito concentrado em baixo</span> → critérios rígidos/ruins;
+                <span class="mono">muito espalhado</span> → instabilidade/ruído;
+                <span class="mono">mudança brusca</span> → drift.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card rounded-4 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h6 class="fw-bold mb-2"><i class="bi bi-clipboard-data"></i> Resumo estatístico</h6>
+              <div class="mini">
+                <div class="d-flex justify-content-between"><span>Média</span><strong id="stMedia">—</strong></div>
+                <div class="d-flex justify-content-between"><span>Mediana</span><strong id="stMediana">—</strong></div>
+                <div class="d-flex justify-content-between"><span>P10</span><strong id="stP10">—</strong></div>
+                <div class="d-flex justify-content-between"><span>P90</span><strong id="stP90">—</strong></div>
+              </div>
+
+              <hr class="hr-soft">
+
+              <h6 class="fw-bold mb-2"><i class="bi bi-sliders"></i> Configuração de limiar (trava)</h6>
+              <div class="input-group">
+                <span class="input-group-text">Score mínimo</span>
+                <input type="number" class="form-control" id="inpLimiar" min="0" max="100" step="1">
+                <button class="btn btn-outline-primary" id="btnRecalcular">Recalcular</button>
+              </div>
+              <div class="help mt-2">
+                Ajuste o limiar e observe impacto na taxa de “trava por aderência” (funil).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Funil -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-funnel"></i> Funil do processo (candidato)</h2>
+        <div class="no-print d-flex gap-2">
+          <select class="form-select form-select-sm" id="selVagaFunil" style="max-width:320px"></select>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card rounded-4 shadow-sm">
+            <div class="card-body p-4">
+              <canvas id="chartFunil"></canvas>
+              <div class="help mt-2">
+                Se a “trava” for alta demais, isso pode estar excluindo candidatos antes de uma revisão humana.
+                No MVP, garanta que a trava seja <strong>educativa</strong> e ofereça <strong>vagas alternativas</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card rounded-4 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h6 class="fw-bold"><i class="bi bi-pie-chart"></i> Motivos de trava / reprovação</h6>
+              <canvas id="chartMotivos"></canvas>
+              <div class="help mt-2">
+                Útil para perceber se a IA está “batendo” sempre nos mesmos pontos (ex.: falta de requisito crítico).
+                Isso pode gerar melhorias na descrição da vaga ou no feedback/trilha de desenvolvimento.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Consistência -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-repeat"></i> Testes de consistência (fairness sem dados sensíveis)</h2>
+        <span class="help">“Perfis parecidos devem ter scores parecidos.”</span>
+      </div>
+
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-lg-7">
+              <p class="mb-2">
+                Aqui entram testes automáticos com pares de currículos “equivalentes” (ex.: mesma experiência, só muda formatação).
+                O objetivo é detectar variação excessiva do score.
+              </p>
+
+              <div class="mini mb-3">
+                <div class="d-flex justify-content-between">
+                  <span>Regra sugerida (MVP)</span>
+                  <strong class="mono">diferença > 12 pontos = alerta</strong>
+                </div>
+                <div class="help mt-1">
+                  Se houver muitos alertas, ajuste prompt, extração de texto ou normalização de competências.
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-sm align-middle">
+                  <thead>
+                    <tr>
+                      <th>Teste</th>
+                      <th>Vaga</th>
+                      <th>Score A</th>
+                      <th>Score B</th>
+                      <th>Diferença</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbConsistencia"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="mini">
+                <h6 class="fw-bold mb-2"><i class="bi bi-check2-circle"></i> Checklist de mitigação</h6>
+                <ul class="mb-0">
+                  <li>Normalizar texto extraído (remover ruído)</li>
+                  <li>Padronizar dicionário de competências (sinônimos)</li>
+                  <li>Prompt exigir justificativa e estrutura JSON</li>
+                  <li>Evitar sinais fracos (nome, endereço, etc.)</li>
+                  <li>Revisão humana nos casos limítrofes</li>
+                </ul>
+              </div>
+
+              <div class="mini mt-3">
+                <h6 class="fw-bold mb-2"><i class="bi bi-shield-lock"></i> Nota LGPD</h6>
+                <div class="help">
+                  Evite coletar/usar atributos sensíveis no score. Se a organização quiser medir por grupos,
+                  isso deve ser justificado, documentado e usado apenas para auditoria, nunca para exclusão.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Drift -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-graph-up"></i> Drift ao longo do tempo (estabilidade)</h2>
+        <span class="help">Mudanças bruscas indicam alteração de dados, prompt, modelo ou extração.</span>
+      </div>
+
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body p-4">
+          <canvas id="chartDrift"></canvas>
+          <div class="help mt-2">
+            Se houver drift: registrar versão do prompt/modelo, comparar antes/depois, e ajustar limiar se necessário.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) Ações recomendadas -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-wrench-adjustable"></i> Ações recomendadas</h2>
+        <span class="help">Transforme achados em backlog.</span>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card rounded-4 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h6 class="fw-bold mb-2">Quando a trava está alta</h6>
+              <ol class="mb-0">
+                <li>Revisar requisitos “críticos” (estão bem definidos?)</li>
+                <li>Melhorar feedback e sugestões de vagas compatíveis</li>
+                <li>Criar zona “cinzenta” (ex.: score 55–60) com revisão humana</li>
+                <li>Revisar extração do currículo (ruído/erro)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card rounded-4 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h6 class="fw-bold mb-2">Quando a consistência falha</h6>
+              <ol class="mb-0">
+                <li>Fixar estrutura do JSON (campos e regras)</li>
+                <li>Forçar a IA a citar evidências (trechos do currículo)</li>
+                <li>Normalizar competências (sinônimos e níveis)</li>
+                <li>Testes automatizados em lote (regressão)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning mt-3 mb-0">
+        <strong>Observação:</strong> fairness não é “um número mágico”. É um conjunto de checagens para reduzir risco
+        e melhorar qualidade/explicabilidade do processo.
+      </div>
+    </section>
+
+    <!-- 7) Apêndice: como alimentar com dados reais -->
+    <section class="mb-5">
+      <div class="sec-title mb-3">
+        <h2 class="h4 fw-bold"><i class="bi bi-braces"></i> Apêndice — Como alimentar com dados reais (MVP)</h2>
+        <span class="help">Você pode gerar JSON agregado no backend e injetar neste relatório.</span>
+      </div>
+
+      <div class="card rounded-4 shadow-sm">
+        <div class="card-body p-4">
+          <p class="mb-2">
+            No produto (PHP/MySQL), gere um endpoint interno com agregações (sem dados pessoais):
+            <span class="mono">/relatorios/fairness.json</span>
+          </p>
+
+          <div class="mini">
+            <div class="fw-semibold mb-2">Exemplos de agregações úteis (SQL conceitual)</div>
+<pre class="mono mb-0" style="white-space:pre-wrap;">
+-- Distribuição de scores por vaga
+SELECT vaga_id, FLOOR(score_aderencia/10)*10 AS faixa, COUNT(*) AS qtd
+FROM avaliacoes_ia
+JOIN candidaturas ON candidaturas.id = avaliacoes_ia.candidatura_id
+WHERE criado_em BETWEEN :ini AND :fim
+GROUP BY vaga_id, faixa
+ORDER BY vaga_id, faixa;
+
+-- Funil por vaga (status da candidatura)
+SELECT vaga_id, status, COUNT(*) AS qtd
+FROM candidaturas
+WHERE criado_em BETWEEN :ini AND :fim
+GROUP BY vaga_id, status;
+
+-- Motivos (ex.: lacunas mais frequentes)
+-- (Se você salvar lacunas em texto/JSON, normalize para categorias)
+</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="py-4 border-top text-muted small">
+      <div class="d-flex justify-content-between flex-wrap gap-2">
+        <div>Modelo de Relatório — Fairness/Equidade (MVP)</div>
+        <div><a href="#" class="text-muted text-decoration-none">Topo</a></div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // ====== DADOS EXEMPLO (substituir por JSON do backend no produto) ======
+    // Dica: no MVP, use apenas dados agregados, sem atributos sensíveis.
+    const dadosExemplo = {
+      periodo: { inicio: "2026-02-01", fim: "2026-02-24" },
+      modeloIA: "gpt-4.1-mini (exemplo)",
+      vagas: [
+        { id: 101, titulo: "Assistente de Logística" },
+        { id: 102, titulo: "Analista de Dados Jr" },
+        { id: 103, titulo: "Auxiliar Administrativo" },
+      ],
+      totals: {
+        vagas_analisadas: 3,
+        candidaturas_total: 148,
+        avaliadas_ia: 140,
+        trava_por_aderencia: 36,  // recalcula com limiar também
+        score_medio: 64.2,
+        alertas_consistencia: 5
+      },
+      // Scores por vaga (lista simples para montar histograma e estatística)
+      scoresPorVaga: {
+        101: [72,60,55,81,66,70,74,62,58,90,77,64,61,49,53,68,69,71,63,57,73,59,66,65,70],
+        102: [88,79,74,69,64,60,58,55,52,91,84,77,73,67,62,59,57,53,50,49,45,72,76,80],
+        103: [70,68,65,62,60,58,56,55,54,53,51,49,47,45,44,72,74,63,61,59,57,52,50,48]
+      },
+      // Funil por vaga (contagens)
+      funilPorVaga: {
+        101: { enviada: 56, travada: 14, em_analise: 32, entrevista: 10, aprovado: 3, reprovado: 7 },
+        102: { enviada: 42, travada: 16, em_analise: 22, entrevista: 8, aprovado: 2, reprovado: 6 },
+        103: { enviada: 50, travada: 6,  em_analise: 30, entrevista: 9, aprovado: 2, reprovado: 8 }
+      },
+      motivos: [
+        { motivo: "Falta de requisito crítico", qtd: 22 },
+        { motivo: "Pouca experiência prática", qtd: 10 },
+        { motivo: "Competências técnicas insuficientes", qtd: 8 },
+        { motivo: "Inconsistência no currículo (texto/ruído)", qtd: 4 }
+      ],
+      consistencia: [
+        { teste: "Par A (formatação diferente)", vagaId: 101, scoreA: 71, scoreB: 59 },
+        { teste: "Par B (sinônimos de competências)", vagaId: 102, scoreA: 76, scoreB: 63 },
+        { teste: "Par C (mesma experiência, ordem diferente)", vagaId: 103, scoreA: 62, scoreB: 60 },
+        { teste: "Par D (currículo com ruído OCR)", vagaId: 101, scoreA: 68, scoreB: 52 }
+      ],
+      driftMensal: [
+        { mes: "2025-12", media: 66.0 },
+        { mes: "2026-01", media: 65.1 },
+        { mes: "2026-02", media: 64.2 }
+      ]
+    };
+
+    // ====== UTILITÁRIOS ======
+    const fmtData = (iso) => {
+      const [y,m,d] = iso.split("-");
+      return `${d}/${m}/${y}`;
+    };
+    const media = (arr) => arr.reduce((a,b)=>a+b,0) / (arr.length || 1);
+    const mediana = (arr) => {
+      const a = [...arr].sort((x,y)=>x-y);
+      const mid = Math.floor(a.length/2);
+      return a.length % 2 ? a[mid] : (a[mid-1] + a[mid]) / 2;
+    };
+    const percentil = (arr, p) => {
+      const a = [...arr].sort((x,y)=>x-y);
+      const idx = Math.floor((p/100) * (a.length-1));
+      return a[idx] ?? 0;
+    };
+    const hist10 = (arr) => {
+      const bins = Array.from({length:10}, (_,i)=>({label:`${i*10}-${i*10+9}`, v:0}));
+      arr.forEach(s=>{
+        const b = Math.min(9, Math.max(0, Math.floor(s/10)));
+        bins[b].v += 1;
+      });
+      return bins;
+    };
+
+    // ====== STATE ======
+    let chartHist, chartFunil, chartMotivos, chartDrift;
+    let limiarAtual = 60;
+
+    // ====== RENDER ======
+    function renderCabecalho(){
+      const p = dadosExemplo.periodo;
+      document.getElementById("txtPeriodo").textContent = `${fmtData(p.inicio)} a ${fmtData(p.fim)}`;
+      document.getElementById("txtQtdVagas").textContent = dadosExemplo.totals.vagas_analisadas;
+      document.getElementById("txtCands").textContent = dadosExemplo.totals.candidaturas_total;
+      document.getElementById("txtModeloIA").textContent = dadosExemplo.modeloIA;
+    }
+
+    function renderKPIs(){
+      const t = dadosExemplo.totals;
+      const kpis = [
+        { ico:"bi-people", val:t.candidaturas_total, lbl:"Candidaturas (total)" },
+        { ico:"bi-robot", val:t.avaliadas_ia, lbl:"Avaliadas pela IA" },
+        { ico:"bi-shield-x", val:calcTravaTotalPorLimiar(), lbl:`Travas por aderência (limiar ${limiarAtual})` },
+        { ico:"bi-graph-up", val:round1(calcScoreMedioTotal()), lbl:"Score médio (global)" },
+        { ico:"bi-repeat", val:calcAlertasConsistencia(), lbl:"Alertas de consistência" },
+        { ico:"bi-speedometer2", val:round1(calcTaxaTravaGlobal()) + "%", lbl:"Taxa de trava (global)" }
+      ];
+
+      const host = document.getElementById("kpis");
+      host.innerHTML = "";
+      kpis.forEach(k=>{
+        const col = document.createElement("div");
+        col.className = "col-md-6 col-lg-4";
+        col.innerHTML = `
+          <div class="kpi shadow-sm rounded-4">
+            <div class="ico"><i class="bi ${k.ico}"></i></div>
+            <div>
+              <div class="val">${k.val}</div>
+              <div class="lbl">${k.lbl}</div>
+            </div>
+          </div>`;
+        host.appendChild(col);
+      });
+    }
+
+    function preencherSelects(){
+      const sel1 = document.getElementById("selVagaScores");
+      const sel2 = document.getElementById("selVagaFunil");
+      sel1.innerHTML = "";
+      sel2.innerHTML = "";
+      dadosExemplo.vagas.forEach(v=>{
+        const o1 = document.createElement("option");
+        o1.value = v.id; o1.textContent = `${v.titulo}`;
+        const o2 = o1.cloneNode(true);
+        sel1.appendChild(o1);
+        sel2.appendChild(o2);
+      });
+      sel1.value = dadosExemplo.vagas[0].id;
+      sel2.value = dadosExemplo.vagas[0].id;
+    }
+
+    function renderResumoStats(vagaId){
+      const arr = dadosExemplo.scoresPorVaga[vagaId] || [];
+      document.getElementById("stMedia").textContent = round1(media(arr));
+      document.getElementById("stMediana").textContent = round1(mediana(arr));
+      document.getElementById("stP10").textContent = percentil(arr, 10);
+      document.getElementById("stP90").textContent = percentil(arr, 90);
+    }
+
+    function renderHist(vagaId){
+      const arr = dadosExemplo.scoresPorVaga[vagaId] || [];
+      const bins = hist10(arr);
+
+      const labels = bins.map(b=>b.label);
+      const data = bins.map(b=>b.v);
+
+      if(chartHist) chartHist.destroy();
+      chartHist = new Chart(document.getElementById("chartHist"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{ label:"Quantidade de candidaturas", data }]
+        },
+        options: {
+          responsive:true,
+          plugins:{ legend:{ display:true } },
+          scales:{
+            y:{ beginAtZero:true, ticks:{ precision:0 } }
+          }
+        }
+      });
+
+      renderResumoStats(vagaId);
+    }
+
+    function renderFunil(vagaId){
+      const f = dadosExemplo.funilPorVaga[vagaId];
+      const etapas = ["enviada", "travada", "em_analise", "entrevista", "aprovado", "reprovado"];
+      const labels = ["Enviada", "Travada", "Em análise", "Entrevista", "Aprovado", "Reprovado"];
+      const data = etapas.map(e => f?.[e] ?? 0);
+
+      if(chartFunil) chartFunil.destroy();
+      chartFunil = new Chart(document.getElementById("chartFunil"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [{ label:"Quantidade", data }]
+        },
+        options: {
+          responsive:true,
+          plugins:{ legend:{ display:true } },
+          scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }
+        }
+      });
+    }
+
+    function renderMotivos(){
+      const labels = dadosExemplo.motivos.map(m=>m.motivo);
+      const data = dadosExemplo.motivos.map(m=>m.qtd);
+
+      if(chartMotivos) chartMotivos.destroy();
+      chartMotivos = new Chart(document.getElementById("chartMotivos"), {
+        type: "doughnut",
+        data: { labels, datasets:[{ label:"Ocorrências", data }] },
+        options: { responsive:true, plugins:{ legend:{ position:"bottom" } } }
+      });
+    }
+
+    function renderConsistencia(){
+      const tbody = document.getElementById("tbConsistencia");
+      tbody.innerHTML = "";
+      const limite = 12;
+
+      dadosExemplo.consistencia.forEach((c, idx)=>{
+        const vaga = dadosExemplo.vagas.find(v=>v.id===c.vagaId)?.titulo || `Vaga ${c.vagaId}`;
+        const dif = Math.abs(c.scoreA - c.scoreB);
+        const ok = dif <= limite;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx+1}. ${c.teste}</td>
+          <td>${vaga}</td>
+          <td>${c.scoreA}</td>
+          <td>${c.scoreB}</td>
+          <td><strong>${dif}</strong></td>
+          <td>${ok ? `<span class="badge text-bg-success">OK</span>` : `<span class="badge text-bg-warning">ALERTA</span>`}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderDrift(){
+      const labels = dadosExemplo.driftMensal.map(d=>d.mes);
+      const data = dadosExemplo.driftMensal.map(d=>d.media);
+
+      if(chartDrift) chartDrift.destroy();
+      chartDrift = new Chart(document.getElementById("chartDrift"), {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{ label:"Score médio (mensal)", data, tension:0.25 }]
+        },
+        options: {
+          responsive:true,
+          plugins:{ legend:{ display:true } },
+          scales:{ y:{ beginAtZero:true, suggestedMax:100 } }
+        }
+      });
+    }
+
+    // ====== CÁLCULOS (recalcula trava global por limiar) ======
+    function calcTravaTotalPorLimiar(){
+      let total = 0;
+      for(const vagaId of Object.keys(dadosExemplo.scoresPorVaga)){
+        const arr = dadosExemplo.scoresPorVaga[vagaId] || [];
+        total += arr.filter(s => s < limiarAtual).length;
+      }
+      return total;
+    }
+
+    function calcTaxaTravaGlobal(){
+      const totalScores = Object.values(dadosExemplo.scoresPorVaga).reduce((acc, arr)=>acc + (arr?.length||0), 0);
+      const travas = calcTravaTotalPorLimiar();
+      return totalScores ? (travas/totalScores)*100 : 0;
+    }
+
+    function calcScoreMedioTotal(){
+      const all = Object.values(dadosExemplo.scoresPorVaga).flat();
+      return all.length ? media(all) : 0;
+    }
+
+    function calcAlertasConsistencia(){
+      const limite = 12;
+      return dadosExemplo.consistencia.filter(c => Math.abs(c.scoreA - c.scoreB) > limite).length;
+    }
+
+    function round1(n){ return Math.round(n*10)/10; }
+
+    // ====== EVENTOS ======
+    function bindEventos(){
+      const selScores = document.getElementById("selVagaScores");
+      const selFunil  = document.getElementById("selVagaFunil");
+
+      selScores.addEventListener("change", () => {
+        renderHist(parseInt(selScores.value,10));
+      });
+
+      selFunil.addEventListener("change", () => {
+        renderFunil(parseInt(selFunil.value,10));
+      });
+
+      document.getElementById("btnRecalcular").addEventListener("click", () => {
+        const val = parseInt(document.getElementById("inpLimiar").value, 10);
+        if(Number.isFinite(val) && val >= 0 && val <= 100){
+          limiarAtual = val;
+          renderKPIs();
+        }
+      });
+
+      document.getElementById("btnCopiarResumo").addEventListener("click", async () => {
+        const resumo = gerarResumoTexto();
+        await navigator.clipboard.writeText(resumo);
+      });
+    }
+
+    function gerarResumoTexto(){
+      const p = dadosExemplo.periodo;
+      const travas = calcTravaTotalPorLimiar();
+      const taxa = round1(calcTaxaTravaGlobal());
+      const m = round1(calcScoreMedioTotal());
+      const alerts = calcAlertasConsistencia();
+      return [
+        "Relatório de Fairness (Equidade) — Resumo",
+        `Período: ${fmtData(p.inicio)} a ${fmtData(p.fim)}`,
+        `Vagas analisadas: ${dadosExemplo.totals.vagas_analisadas}`,
+        `Candidaturas (total): ${dadosExemplo.totals.candidaturas_total}`,
+        `Score médio (global): ${m}`,
+        `Limiar atual: ${limiarAtual}`,
+        `Travas por aderência (estimado pelo limiar): ${travas} | taxa: ${taxa}%`,
+        `Alertas de consistência (diferença > 12): ${alerts}`,
+        "Observação: IA recomenda e explica; decisão final humana."
+      ].join("\n");
+    }
+
+    // ====== INIT ======
+    function init(){
+      renderCabecalho();
+      preencherSelects();
+      document.getElementById("inpLimiar").value = limiarAtual;
+
+      const vagaInicial = dadosExemplo.vagas[0].id;
+      renderKPIs();
+      renderHist(vagaInicial);
+      renderFunil(vagaInicial);
+      renderMotivos();
+      renderConsistencia();
+      renderDrift();
+
+      bindEventos();
+    }
+
+    init();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Documentação — Plataforma de Vagas com IA (Projeto Integrador RH)</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="estilo.css" />
+</head>
+
+<body>
+  <!-- Topbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-robot"></i> Vagas com IA — Documentação
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="menu" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="#visao-geral">Visão geral</a></li>
+          <li class="nav-item"><a class="nav-link" href="#regras">Regras de negócio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#mvp">MVP</a></li>
+          <li class="nav-item"><a class="nav-link" href="#dados">Modelagem</a></li>
+          <li class="nav-item"><a class="nav-link" href="#cronograma">Cronograma</a></li>
+          <li class="nav-item"><a class="nav-link" href="#lacunas">Lacunas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#expansao">Expansão</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container py-5">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h1 class="display-6 fw-bold mb-3">
+            Plataforma de Vagas com IA (Matching + Compliance + Feedback)
+          </h1>
+          <p class="lead mb-4">
+            Documentação para concepção do projeto: escopo, regras, MVP, modelagem, cronograma e pontos em aberto.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#mvp" class="btn btn-primary">
+              <i class="bi bi-flag"></i> Ver MVP
+            </a>
+            <a href="#lacunas" class="btn btn-outline-primary">
+              <i class="bi bi-ui-checks"></i> Preencher lacunas
+            </a>
+            <button class="btn btn-light border" onclick="app.imprimir()">
+              <i class="bi bi-printer"></i> Imprimir/PDF
+            </button>
+          </div>
+
+          <div class="mt-4 small text-muted">
+            Base conceitual: reduzir fadiga de cadastro, garantir feedback e melhorar triagem com IA (matching).
+            Também inclui “travas” de aderência e compliance.
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge text-bg-primary"><i class="bi bi-layers"></i> Escopo</span>
+                <span class="badge text-bg-light border"><i class="bi bi-phone"></i> Responsivo</span>
+                <span class="badge text-bg-light border"><i class="bi bi-shield-check"></i> LGPD/Compliance</span>
+              </div>
+              <h5 class="fw-bold mb-2">Resumo do que o sistema faz</h5>
+              <ul class="mb-0">
+                <li>Empresa publica vaga com requisitos, benefícios e revisão de compliance.</li>
+                <li>Candidato se cadastra e se candidata enviando currículo (sem formulário longo).</li>
+                <li>IA avalia aderência currículo x vaga e gera ranking, métricas e feedback.</li>
+                <li>Registros: empresa vê candidatos por vaga; candidato vê histórico de candidaturas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+
+    <!-- Visão geral -->
+    <section id="visao-geral" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-compass"></i> Visão geral</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#visao-geral')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Problema que o projeto resolve</h5>
+              <ul class="mb-0">
+                <li>Processos longos aumentam abandono e pioram a experiência do candidato.</li>
+                <li>Falta de feedback gera percepção negativa e quebra de confiança.</li>
+                <li>Triagem inicial é rápida e superficial; IA pode apoiar com critérios padronizados.</li>
+              </ul>
+              <hr>
+              <h6 class="fw-bold">Direção do produto</h6>
+              <p class="mb-0">
+                A plataforma funciona como um “marketplace” de vagas, com candidatura via upload de currículo e
+                avaliação automática de aderência, além de travas de compliance e feedback estruturado.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Personas</h5>
+              <div class="persona">
+                <div class="icon"><i class="bi bi-person-badge"></i></div>
+                <div>
+                  <div class="fw-semibold">Candidato</div>
+                  <div class="text-muted small">
+                    Quer se candidatar rápido, receber feedback e acompanhar status.
+                  </div>
+                </div>
+              </div>
+              <div class="persona">
+                <div class="icon"><i class="bi bi-building"></i></div>
+                <div>
+                  <div class="fw-semibold">Empresa / RH</div>
+                  <div class="text-muted small">
+                    Quer publicar vagas com segurança, ranquear candidatos e agilizar triagem.
+                  </div>
+                </div>
+              </div>
+              <div class="persona">
+                <div class="icon"><i class="bi bi-shield-lock"></i></div>
+                <div>
+                  <div class="fw-semibold">Compliance / Auditoria</div>
+                  <div class="text-muted small">
+                    Exige rastreabilidade: logs, consentimentos e bloqueio de conteúdo inadequado.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Jornadas -->
+    <section class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-signpost-split"></i> Jornadas e fluxos</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('section:nth-of-type(2)')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold"><i class="bi bi-person-check"></i> Jornada do candidato</h5>
+              <ol class="mb-0">
+                <li>Cadastro/Login simples</li>
+                <li>Anexar currículo (PDF/DOCX)</li>
+                <li>IA faz scan e extrai competências</li>
+                <li>Exibir vagas sugeridas</li>
+                <li>Selecionar vaga → IA calcula aderência</li>
+                <li><span class="badge text-bg-warning">Trava de aderência</span>: se não aderente, bloquear candidatura e sugerir vagas</li>
+                <li>Se aderente: confirmar candidatura</li>
+                <li>Painel do candidato: status + feedback</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold"><i class="bi bi-briefcase"></i> Jornada da empresa</h5>
+              <ol class="mb-0">
+                <li>Cadastro/Login corporativo e verificação simples</li>
+                <li>Gestão de vagas</li>
+                <li>Nova requisição de pessoal (requisitos e benefícios)</li>
+                <li><span class="badge text-bg-info">Revisão legal por IA</span> (compliance)</li>
+                <li><span class="badge text-bg-warning">Trava de segurança</span>: bloquear termos discriminatórios/ilegais e sugerir correções</li>
+                <li>Publicação da vaga</li>
+                <li><span class="badge text-bg-success">Matching ativo</span>: ranqueamento automático e notificação interna</li>
+                <li>Painel da vaga: candidatos + métricas + próximos passos</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Regras de negócio -->
+    <section id="regras" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-journal-check"></i> Regras de negócio</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#regras')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="accordion" id="accRegras">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#r1">
+              1) Candidatura via currículo (sem formulário longo)
+            </button>
+          </h2>
+          <div id="r1" class="accordion-collapse collapse show" data-bs-parent="#accRegras">
+            <div class="accordion-body">
+              <ul class="mb-0">
+                <li>O candidato cria conta com dados mínimos + consentimento LGPD.</li>
+                <li>Para se candidatar, ele envia o currículo (PDF/DOCX) e confirma a candidatura.</li>
+                <li>O sistema armazena o arquivo, extrai texto e mantém histórico de candidaturas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#r2">
+              2) Trava de aderência (educativa)
+            </button>
+          </h2>
+          <div id="r2" class="accordion-collapse collapse" data-bs-parent="#accRegras">
+            <div class="accordion-body">
+              <p class="mb-2">
+                Se o perfil não for aderente (ex.: falta de competência técnica crítica), o sistema:
+              </p>
+              <ul class="mb-0">
+                <li>exibe pop-up educativo;</li>
+                <li>impede a aplicação naquela vaga;</li>
+                <li>sugere vagas compatíveis.</li>
+              </ul>
+              <div class="alert alert-info mt-3 mb-0">
+                Dica: o limiar (ex.: score &lt; 60) deve ser configurável e rastreável (auditoria).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#r3">
+              3) Trava de compliance na vaga (segurança + LGPD)
+            </button>
+          </h2>
+          <div id="r3" class="accordion-collapse collapse" data-bs-parent="#accRegras">
+            <div class="accordion-body">
+              <ul class="mb-0">
+                <li>Antes de publicar, a IA revisa o texto da vaga e bloqueia termos discriminatórios/ilegais.</li>
+                <li>Se bloqueado: mostrar “o que ajustar” + sugestão de reescrita.</li>
+                <li>Se aprovado: permitir publicar e iniciar matching ativo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#r4">
+              4) Feedback em tempo real (empresa e candidato)
+            </button>
+          </h2>
+          <div id="r4" class="accordion-collapse collapse" data-bs-parent="#accRegras">
+            <div class="accordion-body">
+              <ul class="mb-0">
+                <li>Ao avaliar a candidatura, a IA gera: score, pontos fortes, lacunas e recomendações.</li>
+                <li>Empresa vê ranking e métricas por vaga (ex.: top 10, média, lacunas recorrentes).</li>
+                <li>Candidato vê feedback (habilidades/competências e plano de desenvolvimento).</li>
+                <li>A IA recomenda, mas não “decide” contratação (revisão humana sempre).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MVP -->
+    <section id="mvp" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-flag"></i> MVP — base objetiva do projeto</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#mvp')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Checklist do MVP (precisa funcionar)</h5>
+              <div class="checklist" id="checkMvp">
+                <label><input type="checkbox"> Cadastro/Login (candidato e empresa)</label>
+                <label><input type="checkbox"> Publicar vaga (empresa) + status rascunho/publicada</label>
+                <label><input type="checkbox"> Compliance na vaga (bloqueia e sugere correção)</label>
+                <label><input type="checkbox"> Upload de currículo (PDF/DOCX) + validação</label>
+                <label><input type="checkbox"> Extração de texto do currículo</label>
+                <label><input type="checkbox"> Avaliação IA currículo x vaga (score + JSON)</label>
+                <label><input type="checkbox"> Trava de aderência (bloqueia candidatura se não aderente)</label>
+                <label><input type="checkbox"> Confirmar candidatura + registrar histórico</label>
+                <label><input type="checkbox"> Painel do candidato: candidaturas + feedback</label>
+                <label><input type="checkbox"> Painel da empresa: candidatos por vaga + ranking + métricas</label>
+                <label><input type="checkbox"> Auditoria (logs de ações principais)</label>
+              </div>
+
+              <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-sm btn-primary" onclick="app.salvarChecklist()">
+                  <i class="bi bi-save"></i> Salvar checklist
+                </button>
+                <button class="btn btn-sm btn-outline-primary" onclick="app.marcarTudo('#checkMvp', true)">
+                  <i class="bi bi-check2-square"></i> Marcar tudo
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="app.marcarTudo('#checkMvp', false)">
+                  <i class="bi bi-square"></i> Desmarcar
+                </button>
+              </div>
+
+              <div class="small text-muted mt-3">
+                Sugestão: incluir “modo simulação” da IA no ambiente local (para testes sem custo).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Critérios de aceitação (exemplos)</h5>
+              <ul>
+                <li>Empresa publica vaga somente se compliance = OK.</li>
+                <li>Candidato consegue se candidatar em poucos cliques: login → upload → confirmar.</li>
+                <li>Ao tentar vaga não aderente, recebe explicação + sugestões (sem frustração).</li>
+                <li>Empresa enxerga ranking e consegue abrir currículo do top candidato.</li>
+                <li>Todos os eventos principais geram log (auditoria).</li>
+              </ul>
+              <div class="alert alert-warning mb-0">
+                Importante: definir limiares (score) e o que é “competência crítica” (ver Lacunas).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modelagem -->
+    <section id="dados" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-database"></i> Modelagem de dados (visão prática)</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#dados')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <p class="mb-3">
+            A modelagem abaixo suporta: (1) publicação de vagas; (2) upload de currículo; (3) candidaturas; (4) avaliações IA;
+            (5) compliance; (6) auditoria.
+          </p>
+
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <h6 class="fw-bold">Tabelas principais</h6>
+              <ul class="mb-0">
+                <li><span class="mono">usuarios</span> (papéis: candidato, empresa, admin)</li>
+                <li><span class="mono">empresas</span> (dados corporativos e verificação)</li>
+                <li><span class="mono">candidatos</span> (perfil básico + acessibilidade/PCD com consentimento)</li>
+                <li><span class="mono">curriculos</span> (arquivo + texto extraído)</li>
+                <li><span class="mono">vagas</span> (descrição, requisitos, benefícios, status)</li>
+                <li><span class="mono">candidaturas</span> (vaga + candidato + status)</li>
+                <li><span class="mono">avaliacoes_ia</span> (score, classificação, fortes, lacunas, recomendações)</li>
+                <li><span class="mono">compliance_vaga</span> (ok/bloqueado + termos e sugestão)</li>
+                <li><span class="mono">auditoria</span> (rastreabilidade)</li>
+              </ul>
+            </div>
+
+            <div class="col-lg-6">
+              <h6 class="fw-bold">Relacionamentos</h6>
+              <ul class="mb-0">
+                <li>1 empresa → N vagas</li>
+                <li>1 candidato → N currículos (versionamento)</li>
+                <li>1 vaga → N candidaturas</li>
+                <li>1 candidatura → 1 avaliação IA (ou N versões)</li>
+              </ul>
+
+              <div class="alert alert-info mt-3 mb-0">
+                Dica: guardar o JSON detalhado da IA para explicar “por que” do score (transparência).
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Cronograma -->
+    <section id="cronograma" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-calendar3"></i> Cronograma (roadmap + sprints)</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#cronograma')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Fase 01 — Fundação</h5>
+              <p class="text-muted mb-2">MVP (motor de IA + matching) + compliance.</p>
+              <ul class="mb-0">
+                <li>Infra Docker + DB</li>
+                <li>Cadastro/Login</li>
+                <li>Vagas (CRUD)</li>
+                <li>Upload currículo + extração</li>
+                <li>IA: aderência + feedback</li>
+                <li>Compliance: trava</li>
+                <li>Dashboards básicos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Fase 02 — Validação</h5>
+              <p class="text-muted mb-2">Beta com empresas parceiras e refinamento.</p>
+              <ul class="mb-0">
+                <li>Testes com usuários reais</li>
+                <li>Refinar prompts e thresholds</li>
+                <li>Aprimorar UX e acessibilidade</li>
+                <li>Métricas + relatórios</li>
+                <li>Logs/auditoria ampliados</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Fase 03 — Escala</h5>
+              <p class="text-muted mb-2">Expansão, premium e IA generativa.</p>
+              <ul class="mb-0">
+                <li>Notificações e automações</li>
+                <li>Entrevistas/agenda</li>
+                <li>Trilhas de desenvolvimento</li>
+                <li>Multi-empresa + planos SaaS</li>
+                <li>Observabilidade e performance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4 mt-3">
+        <div class="card-body p-4">
+          <h5 class="fw-bold mb-3">Timeline sugerida (macro)</h5>
+
+          <div class="timeline">
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <div class="fw-semibold">Mês 1–3</div>
+                <div class="text-muted small">Desenvolvimento do MVP e ajustes do motor de IA/matching.</div>
+              </div>
+            </div>
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <div class="fw-semibold">Mês 6</div>
+                <div class="text-muted small">Lançamento (piloto / unidade / parceiros).</div>
+              </div>
+            </div>
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-content">
+                <div class="fw-semibold">Mês 12+</div>
+                <div class="text-muted small">Apresentação, captação e escala.</div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h6 class="fw-bold">Backlog (tarefas imediatas)</h6>
+          <ul class="mb-0">
+            <li>Criar fluxogramas das etapas do candidato e da empresa.</li>
+            <li>Criar filtros (preditivos) “freios” nas etapas do candidato e da empresa.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lacunas -->
+    <section id="lacunas" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-ui-checks"></i> Lacunas a preencher (para fechar regra de negócio)</h2>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-primary" onclick="app.salvarLacunas()">
+            <i class="bi bi-save"></i> Salvar
+          </button>
+          <button class="btn btn-sm btn-outline-primary" onclick="app.exportarJson()">
+            <i class="bi bi-braces"></i> Exportar JSON
+          </button>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <p class="text-muted">
+            Preencha abaixo para evitar ambiguidades no desenvolvimento. O sistema salva no seu navegador (localStorage).
+          </p>
+
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">Limiar de aderência (score mínimo para permitir candidatura)</label>
+              <input id="lac_score_min" class="form-control" placeholder="Ex.: 60 (0 a 100)">
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">O que é “competência técnica crítica”?</label>
+              <input id="lac_critica" class="form-control" placeholder="Ex.: NR-10, Excel avançado, CNH D...">
+            </div>
+
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">Formatos aceitos de currículo</label>
+              <input id="lac_formatos" class="form-control" placeholder="Ex.: PDF, DOCX">
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">Tamanho máximo do arquivo</label>
+              <input id="lac_tamanho" class="form-control" placeholder="Ex.: 5 MB">
+            </div>
+
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">Retenção de dados (currículo) — por quanto tempo?</label>
+              <input id="lac_retencao" class="form-control" placeholder="Ex.: 12 meses ou até solicitação de exclusão">
+            </div>
+            <div class="col-lg-6">
+              <label class="form-label fw-semibold">Como será a verificação da empresa?</label>
+              <input id="lac_verificacao" class="form-control" placeholder="Ex.: e-mail corporativo + CNPJ opcional">
+            </div>
+
+            <div class="col-lg-12">
+              <label class="form-label fw-semibold">Texto de consentimento LGPD (resumo)</label>
+              <textarea id="lac_consentimento" class="form-control" rows="3"
+                placeholder="Explique finalidade, retenção, direitos do titular e contato."></textarea>
+            </div>
+
+            <div class="col-lg-12">
+              <label class="form-label fw-semibold">Critérios de ranking (pesos)</label>
+              <textarea id="lac_pesos" class="form-control" rows="3"
+                placeholder="Ex.: Hard skills 60%, Experiência 25%, Formação 15%."></textarea>
+            </div>
+
+            <div class="col-lg-12">
+              <label class="form-label fw-semibold">Próximas etapas suportadas no MVP (marque)</label>
+              <div class="d-flex flex-wrap gap-3">
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lac_etapa_entrevista">
+                  <span class="form-check-label">Agendar entrevista</span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lac_etapa_teste">
+                  <span class="form-check-label">Teste técnico</span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox" id="lac_etapa_msg">
+                  <span class="form-check-label">Mensagens na plataforma</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <h6 class="fw-bold m-0">Visualização (JSON)</h6>
+            <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarJson()">
+              <i class="bi bi-clipboard"></i> Copiar JSON
+            </button>
+          </div>
+          <pre class="jsonbox mt-2" id="jsonPreview">{ }</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Expansão -->
+    <section id="expansao" class="mb-5">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h2 class="h3 fw-bold m-0"><i class="bi bi-lightning-charge"></i> Possibilidades de expansão</h2>
+        <button class="btn btn-sm btn-outline-secondary" onclick="app.copiarTexto('#expansao')">
+          <i class="bi bi-clipboard"></i> Copiar seção
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Expansões (produto)</h5>
+              <ul class="mb-0">
+                <li>Social login (Google/Microsoft)</li>
+                <li>Chat empresa-candidato com trilha de seleção</li>
+                <li>Agendamento (calendário) e videochamada</li>
+                <li>Testes e desafios com correção assistida por IA</li>
+                <li>Trilhas de desenvolvimento e cursos sugeridos</li>
+                <li>Multiunidades/planos SaaS, billing e limites</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold">Expansões (técnico)</h5>
+              <ul class="mb-0">
+                <li>Fila de processamento (jobs) para análise de currículos</li>
+                <li>Cache e observabilidade (logs estruturados)</li>
+                <li>RAG com base de políticas internas e acordos</li>
+                <li>Detecção de vieses e relatórios de fairness</li>
+                <li>Integração com e-mail/WhatsApp (notificações)</li>
+                <li>Exportação CSV/PDF para relatórios de RH</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="py-4 border-top text-muted small">
+      <div class="d-flex justify-content-between flex-wrap gap-2">
+        <div>Documentação — Projeto Integrador (RH + TI)</div>
+        <div>
+          <a class="text-muted text-decoration-none" href="#visao-geral">Topo</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
