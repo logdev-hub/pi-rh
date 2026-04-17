@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelo Prático Aplicado - Recrutamento, Triagem e Seleção com IA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #1f4e79;
+      --azul-claro: #eaf4ff;
+      --verde: #1f7a5c;
+      --verde-claro: #eafaf2;
+      --dourado: #b58900;
+      --vermelho: #b84a4a;
+      --cinza: #5b6470;
+      --fundo: #f7f9fc;
+      --card: #ffffff;
+      --borda: #d9e2ec;
+    }
+
+    body {
+      background: var(--fundo);
+      color: #25313c;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(31,78,121,0.98), rgba(31,122,92,0.92));
+      color: white;
+      padding: 80px 0 60px;
+    }
+
+    .hero .badge-custom {
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+    }
+
+    .secao {
+      padding: 64px 0;
+    }
+
+    .titulo-secao {
+      color: var(--azul);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .subtitulo-secao {
+      color: var(--cinza);
+      max-width: 980px;
+      margin-bottom: 28px;
+    }
+
+    .card-box {
+      background: var(--card);
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 24px;
+      height: 100%;
+      box-shadow: 0 8px 22px rgba(31, 78, 121, 0.05);
+    }
+
+    .icone-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+      background: var(--azul-claro);
+      color: var(--azul);
+    }
+
+    .mini-tag {
+      background: #eef3f8;
+      color: var(--azul);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.84rem;
+      display: inline-block;
+      margin: 4px 8px 4px 0;
+    }
+
+    .box-destaque {
+      background: linear-gradient(180deg, #ffffff, #eef6ff);
+      border: 1px solid #c9dff5;
+      border-radius: 20px;
+      padding: 24px;
+      color: #1f2d3d;
+      box-shadow: 0 10px 26px rgba(31, 78, 121, 0.08);
+    }
+
+    .box-destaque h4,
+    .box-destaque h5,
+    .box-destaque p,
+    .box-destaque li {
+      color: #1f2d3d;
+    }
+
+    .painel-ajuste {
+      background: linear-gradient(180deg, #fffdf6, #fff6db);
+      border: 1px solid #f0d992;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 26px rgba(181, 137, 0, 0.08);
+    }
+
+    .painel-ajuste h4,
+    .painel-ajuste h5 {
+      color: #8a6200;
+    }
+
+    .selo-ajuste {
+      display: inline-block;
+      background: #fff1bf;
+      color: #7d5a00;
+      border: 1px solid #efd47a;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .nota-explicativa {
+      background: #f3f9ff;
+      border: 1px solid #cfe0f0;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .nota-explicativa h5,
+    .nota-explicativa h6 {
+      color: var(--azul);
+    }
+
+    .passo {
+      border-left: 5px solid var(--azul);
+      background: white;
+      border-radius: 0 16px 16px 0;
+      padding: 20px 22px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      margin-bottom: 18px;
+    }
+
+    .passo .numero {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--azul);
+      color: white;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .quadro-resumo {
+      background: var(--verde-claro);
+      border: 1px solid #cfeedd;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .alerta-orientativo {
+      background: #fff8df;
+      border: 1px solid #f0de8a;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .kpi-box {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      height: 100%;
+    }
+
+    .kpi-box .valor {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--azul);
+      line-height: 1;
+    }
+
+    .linha-tempo {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .linha-tempo::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #cfe0f0;
+    }
+
+    .evento {
+      position: relative;
+      margin-bottom: 22px;
+      background: white;
+      padding: 18px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--borda);
+    }
+
+    .evento::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 22px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--verde);
+      border: 3px solid #dff4ea;
+    }
+
+    .tabela-simples th {
+      background: #eff5fb;
+      color: var(--azul);
+    }
+
+    .badge-score {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: inline-block;
+    }
+
+    .score-alto {
+      background: #dff4ea;
+      color: #155a43;
+      border: 1px solid #bfe6d1;
+    }
+
+    .score-medio {
+      background: #fff3d9;
+      color: #8a6200;
+      border: 1px solid #f0d992;
+    }
+
+    .score-baixo {
+      background: #fde9e9;
+      color: #8a2e2e;
+      border: 1px solid #efc3c3;
+    }
+
+    .status-ok {
+      color: #155a43;
+      font-weight: 700;
+    }
+
+    .status-alerta {
+      color: #8a6200;
+      font-weight: 700;
+    }
+
+    .status-risco {
+      color: #8a2e2e;
+      font-weight: 700;
+    }
+
+    .fluxo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .fluxo-card {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+    }
+
+    .fluxo-card .topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .fluxo-card .numero {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--azul);
+      color: white;
+      font-weight: 800;
+    }
+
+    .quadro-comparativo {
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+    }
+
+    .quadro-comparativo .coluna-titulo {
+      background: #f5f9fe;
+      color: var(--azul);
+      font-weight: 800;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .quadro-comparativo .coluna-corpo {
+      padding: 18px;
+    }
+
+    .accordion-button:not(.collapsed) {
+      background: var(--azul-claro);
+      color: var(--azul);
+      box-shadow: none;
+    }
+
+    .navbar {
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .navbar-brand,
+    .nav-link {
+      font-weight: 600;
+    }
+
+    .footer {
+      background: #11283f;
+      color: #e7eef5;
+      padding: 36px 0;
+    }
+
+    .btn-topo {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      border-radius: 999px;
+      width: 48px;
+      height: 48px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand text-primary" href="#topo"><i class="bi bi-diagram-3-fill me-2"></i>Modelo Prático RTS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#visao">Visão</a></li>
+          <li class="nav-item"><a class="nav-link" href="#cenario">Cenário</a></li>
+          <li class="nav-item"><a class="nav-link" href="#fluxo">Fluxo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#score">Score</a></li>
+          <li class="nav-item"><a class="nav-link" href="#aplicacao">Aplicação</a></li>
+          <li class="nav-item"><a class="nav-link" href="#governanca">Governança</a></li>
+          <li class="nav-item"><a class="nav-link" href="#indicadores">Indicadores</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <span class="badge-custom"><i class="bi bi-bezier2 me-2"></i>Aplicação prática do modelo revisado</span>
+          <h1 class="display-5 fw-bold mb-3">Como a solução funciona na prática em um processo real de Recrutamento, Triagem e Seleção</h1>
+          <p class="lead mb-4">Esta página demonstra, de forma didática e objetiva, <strong>como o modelo proposto opera no dia a dia</strong>: desde a requisição da vaga até a devolutiva ao candidato, mostrando score, revisão humana, compliance, exceções e indicadores de gestão.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="mini-tag">🏢 Requisição de pessoal</span>
+            <span class="mini-tag">🧭 Triagem estruturada</span>
+            <span class="mini-tag">🤖 Score explicável</span>
+            <span class="mini-tag">🧑‍💼 Revisão humana com trava</span>
+            <span class="mini-tag">📩 Workflow + e-mail + SMS</span>
+            <span class="mini-tag">🛡️ Auditoria e compliance</span>
+          </div>
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <a class="btn btn-light btn-lg" href="ia-revisada.html"><i class="bi bi-arrow-left me-2"></i>Voltar ao documento revisado</a>
+            <a class="btn btn-outline-light btn-lg" href="gamificacao-pratica.html"><i class="bi bi-trophy me-2"></i>Ver gamificação prática</a>
+            <button class="btn btn-outline-light btn-lg" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir/PDF</button>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="box-destaque">
+            <h5 class="fw-bold mb-3">O que esta página prova</h5>
+            <ul class="mb-0">
+              <li>que a proposta sai do discurso e vira operação concreta;</li>
+              <li>que a triagem pode ser padronizada sem retirar autonomia do RH;</li>
+              <li>que o retorno ao candidato pode ser obrigatório e mensurável;</li>
+              <li>que exceções humanas podem existir, mas com justificativa e rastreabilidade.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="painel-ajuste mt-4">
+        <span class="selo-ajuste">Leitura recomendada desta página</span>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">1. Entenda o cenário</h5>
+            <p class="mb-0">Primeiro mostramos uma vaga realista com regras, SLA, aprovadores e requisitos críticos.</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">2. Veja o fluxo em ação</h5>
+            <p class="mb-0">Depois demonstramos como a plataforma conduz triagem, score, revisão e comunicação.</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">3. Analise a governança</h5>
+            <p class="mb-0">Por fim, mostramos como o sistema trata exceções, favoritismo e devolutiva obrigatória.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="secao" id="visao">
+      <div class="container">
+        <h2 class="titulo-secao">📌 Visão do modelo aplicado</h2>
+        <p class="subtitulo-secao">O modelo prático abaixo não descreve apenas o que a plataforma “poderia fazer”. Ele mostra <strong>como ela deveria funcionar operacionalmente</strong> para atender o RH com mais previsibilidade, mais transparência e menos espaço para decisões sem fundamento.</p>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-bullseye"></i></div>
+              <h5 class="fw-bold">Objetivo operacional</h5>
+              <p class="mb-0">Transformar recrutamento, triagem e seleção em um fluxo controlado, explicável e auditável.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-person-gear"></i></div>
+              <h5 class="fw-bold">Papel do RH</h5>
+              <p class="mb-0">Continuar decidindo, mas com base documentada, critérios padronizados e trilha de justificativas.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-chat-square-dots"></i></div>
+              <h5 class="fw-bold">Papel do candidato</h5>
+              <p class="mb-0">Participar com menos atrito, entender seu status e receber retorno em todas as etapas relevantes.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-shield-check"></i></div>
+              <h5 class="fw-bold">Papel da governança</h5>
+              <p class="mb-0">Controlar exceções, reduzir favoritismo, formalizar devolutivas e gerar indicadores confiáveis.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="alerta-orientativo mt-4">
+          <strong>Em termos práticos:</strong> a plataforma não é só um lugar para “subir currículo e ver ranking”. Ela funciona como um <strong>motor de processo</strong>, obrigando o uso de requisição formal, triagem explicável, decisão humana documentada e comunicação ao candidato.
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="cenario">
+      <div class="container">
+        <h2 class="titulo-secao">🏢 Cenário-base da demonstração</h2>
+        <p class="subtitulo-secao">Para ficar concreto, a aplicação do modelo foi simulada em uma vaga realista de RH. O objetivo é mostrar como os conceitos do documento revisado se transformam em decisões, telas, regras e resultados verificáveis.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Empresa e necessidade</h4>
+              <ul class="mb-0">
+                <li><strong>Empresa fictícia:</strong> Grupo Horizonte Serviços.</li>
+                <li><strong>Área solicitante:</strong> Recursos Humanos Corporativo.</li>
+                <li><strong>Motivo da vaga:</strong> aumento do volume de vagas operacionais e administrativas.</li>
+                <li><strong>Tipo de abertura:</strong> requisição de pessoal obrigatória.</li>
+                <li><strong>Aprovadores da requisição:</strong> gestor da área, RH BP e diretoria.</li>
+                <li><strong>SLA do processo:</strong> shortlist em até 7 dias úteis e fechamento em até 18 dias corridos.</li>
+                <li><strong>Política de devolutiva:</strong> 100% dos candidatos com retorno em eventos-chave do processo.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Vaga da simulação</h4>
+              <ul class="mb-0">
+                <li><strong>Cargo:</strong> Analista de RH Pleno.</li>
+                <li><strong>Modelo:</strong> híbrido, 3 dias presenciais.</li>
+                <li><strong>Requisitos críticos:</strong> graduação aderente, 2 anos de experiência em recrutamento e seleção, experiência com triagem e disponibilidade híbrida.</li>
+                <li><strong>Diferenciais:</strong> ATS, indicadores de RH, escrita técnica e entrevista por competência.</li>
+                <li><strong>Etapas previstas:</strong> triagem automática, revisão RH, entrevista, parecer final e devolutiva.</li>
+                <li><strong>Risco de governança mapeado:</strong> quebra de ranking sem justificativa ou avanço por indicação informal.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Por que este cenário é adequado</span>
+          <p class="mb-2">Ele é suficientemente simples para ser entendido em sala ou apresentação, mas suficientemente realista para demonstrar os pontos mais importantes da proposta: triagem, score, devolutiva, compliance e revisão humana com trava.</p>
+          <p class="mb-0">Além disso, a vaga de RH evidencia um aspecto importante: quem usa a plataforma para selecionar também pode ser avaliado pela própria maturidade do processo que a plataforma impõe.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="fluxo">
+      <div class="container">
+        <h2 class="titulo-secao">🔄 Fluxo operacional do modelo</h2>
+        <p class="subtitulo-secao">Abaixo está o fluxo completo da solução em operação. A intenção aqui não é só listar etapas, mas mostrar <strong>quem faz o quê</strong>, <strong>o que a plataforma automatiza</strong> e <strong>onde entram as travas de governança</strong>.</p>
+
+        <div class="fluxo-grid">
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">1</span>
+              <span class="badge-score score-medio">Início formal</span>
+            </div>
+            <h5 class="fw-bold">Requisição de pessoal</h5>
+            <p class="mb-2">A vaga nasce em um formulário estruturado, com motivo da contratação, centro de custo, perfil esperado e aprovadores.</p>
+            <p class="mb-0"><strong>Controle:</strong> sem requisição aprovada, a vaga não pode ser publicada.</p>
+          </div>
+
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">2</span>
+              <span class="badge-score score-medio">Pré-publicação</span>
+            </div>
+            <h5 class="fw-bold">Compliance da vaga</h5>
+            <p class="mb-2">A IA revisa a descrição e sinaliza linguagem inadequada, termos discriminatórios ou requisitos incoerentes.</p>
+            <p class="mb-0"><strong>Controle:</strong> a plataforma bloqueia publicação até correção.</p>
+          </div>
+
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">3</span>
+              <span class="badge-score score-alto">Entrada do candidato</span>
+            </div>
+            <h5 class="fw-bold">Candidatura simplificada</h5>
+            <p class="mb-2">O candidato faz login, envia currículo e recebe confirmação imediata de candidatura por painel, e-mail e, se previsto, SMS.</p>
+            <p class="mb-0"><strong>Controle:</strong> o sistema já registra consentimento e horário da entrada no funil.</p>
+          </div>
+
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">4</span>
+              <span class="badge-score score-alto">Triagem automatizada</span>
+            </div>
+            <h5 class="fw-bold">Leitura e score</h5>
+            <p class="mb-2">A IA estrutura o currículo, identifica competências, compara com a vaga e gera score com justificativa.</p>
+            <p class="mb-0"><strong>Controle:</strong> requisitos críticos podem impedir avanço automático ou direcionar para revisão.</p>
+          </div>
+
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">5</span>
+              <span class="badge-score score-medio">Revisão humana</span>
+            </div>
+            <h5 class="fw-bold">Análise do RH</h5>
+            <p class="mb-2">O RH visualiza ranking, explicações, lacunas e histórico. Pode seguir a recomendação ou divergir.</p>
+            <p class="mb-0"><strong>Controle:</strong> divergência relevante exige justificativa e, em casos críticos, segunda aprovação.</p>
+          </div>
+
+          <div class="fluxo-card">
+            <div class="topo">
+              <span class="numero">6</span>
+              <span class="badge-score score-alto">Comunicação</span>
+            </div>
+            <h5 class="fw-bold">Workflow de devolutiva</h5>
+            <p class="mb-2">Mudanças de status disparam comunicação padronizada para candidato, RH, gestor e aprovadores.</p>
+            <p class="mb-0"><strong>Controle:</strong> retorno ao candidato deixa de ser opcional e passa a ser métrica do processo.</p>
+          </div>
+        </div>
+
+        <div class="mt-4 card-box">
+          <h4 class="mb-3">Leitura gerencial do fluxo</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle tabela-simples mb-0">
+              <thead>
+                <tr>
+                  <th>Etapa</th>
+                  <th>O sistema faz</th>
+                  <th>O humano faz</th>
+                  <th>Registro obrigatório</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Requisição</td>
+                  <td>coleta dados, aprovações e motivo da vaga</td>
+                  <td>define necessidade real e aprova a abertura</td>
+                  <td>quem solicitou, quem aprovou, quando aprovou</td>
+                </tr>
+                <tr>
+                  <td>Triagem</td>
+                  <td>lê currículo, estrutura informações e calcula score</td>
+                  <td>configura critérios e valida o uso da regra</td>
+                  <td>score, pesos, lacunas, critérios críticos</td>
+                </tr>
+                <tr>
+                  <td>Revisão RH</td>
+                  <td>mostra ranking e alerta divergências</td>
+                  <td>decide avanço, pausa ou reprovação</td>
+                  <td>motivo da decisão e justificativa de exceção</td>
+                </tr>
+                <tr>
+                  <td>Comunicação</td>
+                  <td>envia notificações e atualiza status</td>
+                  <td>confirma etapa e trata exceções sensíveis</td>
+                  <td>canal usado, horário de envio e status da mensagem</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="score">
+      <div class="container">
+        <h2 class="titulo-secao">🤖 Modelo de score e regras de triagem</h2>
+        <p class="subtitulo-secao">Nesta demonstração, o score funciona como uma nota de aderência com pesos definidos pela vaga. O importante aqui não é “a fórmula pela fórmula”, mas a combinação entre <strong>critério objetivo</strong>, <strong>regra crítica</strong> e <strong>espaço controlado para revisão humana</strong>.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Matriz didática de avaliação</h4>
+              <div class="table-responsive">
+                <table class="table table-bordered align-middle tabela-simples mb-0">
+                  <thead>
+                    <tr>
+                      <th>Dimensão</th>
+                      <th>Peso</th>
+                      <th>O que a IA analisa</th>
+                      <th>Regra prática</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Formação aderente</td>
+                      <td>15%</td>
+                      <td>graduação compatível com RH, Administração ou Psicologia</td>
+                      <td>ausência não elimina sozinha, mas reduz aderência</td>
+                    </tr>
+                    <tr>
+                      <td>Experiência em R&S</td>
+                      <td>25%</td>
+                      <td>tempo e profundidade em recrutamento, triagem e seleção</td>
+                      <td>menos de 2 anos reduz fortemente a prioridade</td>
+                    </tr>
+                    <tr>
+                      <td>Triagem e parecer técnico</td>
+                      <td>15%</td>
+                      <td>experiência em entrevista, análise de perfil e devolutiva</td>
+                      <td>forte indicador para shortlist</td>
+                    </tr>
+                    <tr>
+                      <td>ATS e indicadores</td>
+                      <td>15%</td>
+                      <td>uso de sistemas, relatórios e métricas do funil</td>
+                      <td>gap gera recomendação de aprofundamento em entrevista</td>
+                    </tr>
+                    <tr>
+                      <td>Comunicação escrita</td>
+                      <td>10%</td>
+                      <td>clareza de redação, pareceres e interação com gestores</td>
+                      <td>baixa nota não bloqueia, mas impacta o ranking</td>
+                    </tr>
+                    <tr>
+                      <td>Disponibilidade híbrida</td>
+                      <td>5%</td>
+                      <td>aderência ao formato exigido pela vaga</td>
+                      <td>critério crítico: ausência comprovada pode bloquear avanço</td>
+                    </tr>
+                    <tr>
+                      <td>Competências comportamentais</td>
+                      <td>15%</td>
+                      <td>organização, comunicação, colaboração e condução de processo</td>
+                      <td>apoia priorização, nunca decide isoladamente</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="quadro-resumo h-100">
+              <h4 class="mb-3">Faixas de decisão</h4>
+              <ul>
+                <li><strong>80 a 100:</strong> alta prioridade para shortlist.</li>
+                <li><strong>60 a 79,9:</strong> revisão humana obrigatória.</li>
+                <li><strong>Abaixo de 60:</strong> não recomendado para avanço nesta vaga.</li>
+                <li><strong>Critério crítico ausente:</strong> bloqueio ou exceção com justificativa.</li>
+              </ul>
+              <p class="mb-2"><strong>Observação central:</strong> score alto não obriga contratação; score baixo não permite avanço sem controle.</p>
+              <p class="mb-0">Isso mantém a decisão humana, mas elimina o espaço para decisões arbitrárias disfarçadas de “sensibilidade do selecionador”.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Ponto conceitual importante</span>
+          <p class="mb-2">A nota serve para organizar prioridade e coerência. Ela não substitui entrevista, contexto ou avaliação humana. O que a plataforma faz é impedir que alguém use a subjetividade como desculpa para romper o processo sem deixar rastro.</p>
+          <p class="mb-0">Por isso, a melhor prática é combinar score, regra crítica, faixa de revisão e justificativa obrigatória de exceção.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="aplicacao">
+      <div class="container">
+        <h2 class="titulo-secao">🧪 Aplicação prática do modelo em quatro candidatos</h2>
+        <p class="subtitulo-secao">A tabela abaixo demonstra a plataforma em ação. Cada linha mostra como o sistema lê o perfil, recomenda um caminho e como o RH atua quando concorda ou quando tenta romper o fluxo normal.</p>
+
+        <div class="card-box">
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle tabela-simples mb-0">
+              <thead>
+                <tr>
+                  <th>Candidato</th>
+                  <th>Score</th>
+                  <th>Pontos fortes</th>
+                  <th>Lacunas / risco</th>
+                  <th>Recomendação do sistema</th>
+                  <th>Tratamento pelo RH</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Mariana Alves</strong></td>
+                  <td><span class="badge-score score-alto">88,5</span></td>
+                  <td>formação aderente, 3 anos em R&S, triagem forte, experiência em ATS</td>
+                  <td>aprofundar indicadores de RH na entrevista</td>
+                  <td class="status-ok">Avançar para shortlist</td>
+                  <td>RH concorda e agenda entrevista. Devolutiva automática enviada em minutos.</td>
+                </tr>
+                <tr>
+                  <td><strong>Bruno Ferreira</strong></td>
+                  <td><span class="badge-score score-medio">74,0</span></td>
+                  <td>boa vivência operacional, boa comunicação, experiência com triagem</td>
+                  <td>uso limitado de ATS e pouca leitura de indicadores</td>
+                  <td class="status-alerta">Revisão humana</td>
+                  <td>RH mantém no processo e usa entrevista para validar o gap técnico.</td>
+                </tr>
+                <tr>
+                  <td><strong>Camila Nogueira</strong></td>
+                  <td><span class="badge-score score-medio">81,0</span></td>
+                  <td>ótima experiência, parecer técnico forte, escrita excelente</td>
+                  <td>indisponibilidade para modelo híbrido</td>
+                  <td class="status-risco">Bloqueio por critério crítico</td>
+                  <td>RH só pode avançar se registrar exceção formal e aprovar com segunda validação.</td>
+                </tr>
+                <tr>
+                  <td><strong>Rafael Martins</strong></td>
+                  <td><span class="badge-score score-baixo">67,5</span></td>
+                  <td>boa postura geral e experiência parcial</td>
+                  <td>menor aderência que outros nomes; ranking abaixo dos finalistas</td>
+                  <td class="status-alerta">Não priorizar</td>
+                  <td>Gestor tenta forçar avanço. Sistema abre trava de quebra de ranking e exige justificativa objetiva.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>Leitura do caso 1</h4>
+              <p class="mb-2"><strong>Mariana</strong> representa o fluxo ideal: score alto, requisitos críticos atendidos, recomendação clara e avanço sem atrito.</p>
+              <p class="mb-0">Esse caso prova que a plataforma acelera quando há aderência consistente.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>Leitura do caso 2</h4>
+              <p class="mb-2"><strong>Bruno</strong> demonstra a utilidade da zona intermediária. O sistema não elimina cedo demais, mas também não “aprova no automático”.</p>
+              <p class="mb-0">Esse caso mostra equilíbrio entre eficiência e revisão humana.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>Leitura dos casos 3 e 4</h4>
+              <p class="mb-2"><strong>Camila</strong> e <strong>Rafael</strong> demonstram por que o projeto precisa de trava de exceção.</p>
+              <p class="mb-0">Sem esse controle, critérios críticos e ranking poderiam ser ignorados por conveniência ou influência externa.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 box-destaque">
+          <h4 class="mb-3">Exemplo de retorno ao candidato gerado pelo sistema</h4>
+          <p class="mb-2"><strong>Para Bruno Ferreira:</strong> “Seu perfil segue em análise para a vaga de Analista de RH Pleno. Identificamos boa aderência geral e o processo seguirá para revisão do RH. O próximo retorno ocorrerá em até 2 dias úteis.”</p>
+          <p class="mb-0"><strong>Para Camila Nogueira:</strong> “Seu perfil apresentou boa aderência geral, mas a vaga exige disponibilidade híbrida como requisito crítico. Por isso, seu avanço não ocorreu nesta oportunidade. O sistema poderá sugerir vagas compatíveis e trilhas de desenvolvimento relacionadas ao seu perfil.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="governanca">
+      <div class="container">
+        <h2 class="titulo-secao">🛡️ Governança: como o modelo reage a favorecimento e exceções</h2>
+        <p class="subtitulo-secao">A parte mais sensível da proposta está aqui. O sistema não parte da fantasia de que o viés humano vai desaparecer. Ele parte do princípio oposto: <strong>como o viés existe, a plataforma precisa capturar o desvio, pedir justificativa e deixar trilha de auditoria</strong>.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="linha-tempo">
+              <div class="evento">
+                <h5 class="fw-bold">1. O RH ou gestor tenta quebrar o ranking</h5>
+                <p class="mb-0">Exemplo: promover Rafael, que está abaixo de outros candidatos mais aderentes.</p>
+              </div>
+              <div class="evento">
+                <h5 class="fw-bold">2. A plataforma detecta divergência material</h5>
+                <p class="mb-0">O sistema compara score, posição no ranking, requisitos críticos e histórico da decisão.</p>
+              </div>
+              <div class="evento">
+                <h5 class="fw-bold">3. Abre-se a tela de justificativa obrigatória</h5>
+                <p class="mb-0">O usuário precisa escolher motivo padronizado, anexar explicação objetiva e, quando necessário, registrar evidência.</p>
+              </div>
+              <div class="evento">
+                <h5 class="fw-bold">4. Casos críticos seguem para segunda validação</h5>
+                <p class="mb-0">A exceção pode depender de aprovação de líder de RH, BP ou compliance interno.</p>
+              </div>
+              <div class="evento">
+                <h5 class="fw-bold">5. Tudo entra no log e no painel gerencial</h5>
+                <p class="mb-0">A organização passa a medir quantidade, motivo e recorrência das exceções por vaga, área e aprovador.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="quadro-comparativo">
+              <div class="row g-0">
+                <div class="col-12">
+                  <div class="coluna-titulo">Exemplos didáticos de justificativa</div>
+                </div>
+                <div class="col-md-6 border-end">
+                  <div class="coluna-corpo">
+                    <h6 class="fw-bold text-success">Aceitáveis</h6>
+                    <ul class="mb-0">
+                      <li>evidência obtida em entrevista estruturada;</li>
+                      <li>documentação posterior que comprova requisito crítico;</li>
+                      <li>regra formal de mobilidade interna aprovada;</li>
+                      <li>erro confirmado na leitura automática do currículo.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="coluna-corpo">
+                    <h6 class="fw-bold text-danger">Inadequadas</h6>
+                    <ul class="mb-0">
+                      <li>“foi indicado por alguém da casa”;</li>
+                      <li>“parece ser mais confiável”;</li>
+                      <li>“tenho preferência pessoal”;</li>
+                      <li>“quero testar mesmo com score baixo”.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion mt-4" id="accordionExcecoes">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#exc1">
+                Como a solução evita burocracia desnecessária
+              </button>
+            </h2>
+            <div id="exc1" class="accordion-collapse collapse show" data-bs-parent="#accordionExcecoes">
+              <div class="accordion-body">
+                A plataforma não pede justificativa longa para toda decisão. Ela só aciona a trava quando detecta ruptura relevante do fluxo esperado: quebra de ranking, desclassificação contraditória a score alto ou avanço com requisito crítico ausente.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exc2">
+                Como o log pode ser usado pelo RH
+              </button>
+            </h2>
+            <div id="exc2" class="accordion-collapse collapse" data-bs-parent="#accordionExcecoes">
+              <div class="accordion-body">
+                O log serve para auditoria, aprendizado de processo e melhoria de critérios. Se uma área quebra ranking o tempo todo, isso sinaliza problema de regra, cultura ou uso inadequado da plataforma.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#exc3">
+                Onde entra a IA nesse controle
+              </button>
+            </h2>
+            <div id="exc3" class="accordion-collapse collapse" data-bs-parent="#accordionExcecoes">
+              <div class="accordion-body">
+                A IA não aprova nem reprova exceções. Ela ajuda a contextualizar a divergência, mostrando score, pesos, ranking, lacunas e histórico. A validação da exceção continua sendo humana e rastreável.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="comunicacao">
+      <div class="container">
+        <h2 class="titulo-secao">📩 Workflow de comunicação e retorno ao candidato</h2>
+        <p class="subtitulo-secao">A equipe levantou um ponto central: o sistema precisa garantir retorno para o candidato. O modelo prático abaixo traduz isso em eventos claros, canais definidos e prazo mensurável.</p>
+
+        <div class="card-box">
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle tabela-simples mb-0">
+              <thead>
+                <tr>
+                  <th>Evento do processo</th>
+                  <th>Prazo esperado</th>
+                  <th>Canal</th>
+                  <th>Mensagem / ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Candidatura confirmada</td>
+                  <td>imediato</td>
+                  <td>painel + e-mail</td>
+                  <td>confirma recebimento e informa prazo da triagem inicial</td>
+                </tr>
+                <tr>
+                  <td>Triagem concluída</td>
+                  <td>até 24h úteis</td>
+                  <td>painel + e-mail + SMS opcional</td>
+                  <td>informa avanço, revisão manual ou não aderência à vaga</td>
+                </tr>
+                <tr>
+                  <td>Convite para entrevista</td>
+                  <td>no momento da aprovação</td>
+                  <td>e-mail + SMS</td>
+                  <td>envia data, horário, orientações e canal da entrevista</td>
+                </tr>
+                <tr>
+                  <td>Reprovação após entrevista</td>
+                  <td>até 48h após decisão</td>
+                  <td>painel + e-mail</td>
+                  <td>comunica encerramento e orienta próximos passos</td>
+                </tr>
+                <tr>
+                  <td>Encerramento da vaga</td>
+                  <td>imediato após fechamento</td>
+                  <td>painel + e-mail</td>
+                  <td>informa conclusão do processo para candidatos não contratados</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-4 nota-explicativa">
+          <span class="selo-ajuste">Gancho para gamificação</span>
+          <p class="mb-2">Quando o candidato não avançar por lacunas específicas, o sistema pode converter a devolutiva em uma trilha prática de desenvolvimento. Exemplo: “você teve boa aderência geral, mas apresentou baixa maturidade em ATS e indicadores de RH”.</p>
+          <p class="mb-0">Na fase evolutiva, isso pode gerar recomendação de microtrilha, badge e certificado. Assim, a plataforma deixa de ser apenas filtro e passa a ser também instrumento de desenvolvimento de talentos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="indicadores">
+      <div class="container">
+        <h2 class="titulo-secao">📊 Indicadores que a plataforma deve mostrar</h2>
+        <p class="subtitulo-secao">Se a plataforma quer profissionalizar o processo, ela precisa medir o processo. Os indicadores abaixo tornam visível se a triagem está funcionando, se o RH está respeitando a política e se o candidato está de fato recebendo retorno.</p>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">97%</div>
+              <h5 class="mt-2">Retorno no prazo</h5>
+              <p class="mb-0">Percentual de candidatos que receberam devolutiva dentro do SLA definido.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">18h</div>
+              <h5 class="mt-2">Triagem inicial</h5>
+              <p class="mb-0">Tempo médio entre candidatura e classificação inicial pela plataforma.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">6%</div>
+              <h5 class="mt-2">Quebra de ranking</h5>
+              <p class="mb-0">Percentual de decisões humanas que divergiram materialmente do ranking inicial.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">100%</div>
+              <h5 class="mt-2">Exceções rastreadas</h5>
+              <p class="mb-0">Toda exceção precisa ficar associada a motivo, usuário, data e evidência.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Indicadores mínimos do RH</h4>
+              <ul class="mb-0">
+                <li>tempo médio de fechamento da vaga;</li>
+                <li>percentual de candidatos por faixa de score;</li>
+                <li>percentual de bloqueio por requisito crítico;</li>
+                <li>quantidade de exceções por gestor, área e vaga;</li>
+                <li>percentual de devolutiva no prazo;</li>
+                <li>motivos mais frequentes de não aderência.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">O que esses indicadores revelam</h4>
+              <ul class="mb-0">
+                <li>se o processo está rápido ou travado;</li>
+                <li>se a triagem está coerente com os critérios definidos;</li>
+                <li>se a política de retorno ao candidato está sendo cumprida;</li>
+                <li>se existe área ou aprovador rompendo ranking com frequência;</li>
+                <li>se a organização deve revisar critérios ou treinar usuários da plataforma.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 box-destaque">
+          <h4 class="mb-3">Síntese executiva desta demonstração</h4>
+          <p class="mb-2">O modelo prático comprova que a proposta pode ser apresentada como solução completa, e não só como ideia conceitual. Ele mostra como a plataforma organiza a operação, documenta a decisão humana e cria uma política real de retorno ao candidato.</p>
+          <p class="mb-0">Em resumo: a tecnologia acelera o processo; a triagem ganha padrão; o RH mantém a decisão; o compliance reduz o “jeitinho”; e o candidato deixa de ser invisível dentro da jornada.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="mb-1 fw-semibold">Modelo prático aplicado da solução de Recrutamento, Triagem e Seleção com IA</p>
+      <p class="mb-0">Página demonstrativa em HTML, CSS, JavaScript e Bootstrap, mantendo o layout do documento principal e focando na aplicação concreta do processo.</p>
+    </div>
+  </footer>
+
+  <button class="btn btn-primary btn-topo" id="btnTopo" aria-label="Voltar ao topo">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const btnTopo = document.getElementById('btnTopo');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btnTopo.style.display = 'flex';
+      } else {
+        btnTopo.style.display = 'none';
+      }
+    });
+
+    btnTopo.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

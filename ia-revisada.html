@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visão Didática da Plataforma de Recrutamento, Triagem e Seleção com IA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #1f4e79;
+      --azul-claro: #eaf4ff;
+      --verde: #1f7a5c;
+      --verde-claro: #eafaf2;
+      --dourado: #b58900;
+      --cinza: #5b6470;
+      --fundo: #f7f9fc;
+      --card: #ffffff;
+      --borda: #d9e2ec;
+    }
+
+    body {
+      background: var(--fundo);
+      color: #25313c;
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(31,78,121,0.98), rgba(31,122,92,0.92));
+      color: white;
+      padding: 80px 0 60px;
+    }
+
+    .hero .badge-custom {
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+    }
+
+    .secao {
+      padding: 64px 0;
+    }
+
+    .titulo-secao {
+      color: var(--azul);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .subtitulo-secao {
+      color: var(--cinza);
+      max-width: 900px;
+      margin-bottom: 28px;
+    }
+
+    .card-box {
+      background: var(--card);
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 24px;
+      height: 100%;
+      box-shadow: 0 8px 22px rgba(31, 78, 121, 0.05);
+    }
+
+    .icone-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+      background: var(--azul-claro);
+      color: var(--azul);
+    }
+
+    .passo {
+      border-left: 5px solid var(--azul);
+      background: white;
+      border-radius: 0 16px 16px 0;
+      padding: 20px 22px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      margin-bottom: 18px;
+    }
+
+    .passo .numero {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--azul);
+      color: white;
+      font-weight: 700;
+      margin-right: 10px;
+    }
+
+    .linha-tempo {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .linha-tempo::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #cfe0f0;
+    }
+
+    .evento {
+      position: relative;
+      margin-bottom: 22px;
+      background: white;
+      padding: 18px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--borda);
+    }
+
+    .evento::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 22px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--verde);
+      border: 3px solid #dff4ea;
+    }
+
+    .mini-tag {
+      background: #eef3f8;
+      color: var(--azul);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.84rem;
+      display: inline-block;
+      margin: 4px 8px 4px 0;
+    }
+
+    .box-destaque {
+      background: linear-gradient(180deg, #ffffff, #eef6ff);
+      border: 1px solid #c9dff5;
+      border-radius: 20px;
+      padding: 24px;
+      color: #1f2d3d;
+      box-shadow: 0 10px 26px rgba(31, 78, 121, 0.08);
+    }
+
+    .box-destaque h5,
+    .box-destaque h4 {
+      color: var(--azul) !important;
+    }
+
+    .box-destaque p,
+    .box-destaque li {
+      color: #1f2d3d;
+    }
+
+    .accordion-button:not(.collapsed) {
+      background: var(--azul-claro);
+      color: var(--azul);
+      box-shadow: none;
+    }
+
+    .navbar {
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .navbar-brand,
+    .nav-link {
+      font-weight: 600;
+    }
+
+    .footer {
+      background: #11283f;
+      color: #e7eef5;
+      padding: 36px 0;
+    }
+
+    .quadro-resumo {
+      background: var(--verde-claro);
+      border: 1px solid #cfeedd;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .alerta-orientativo {
+      background: #fff8df;
+      border: 1px solid #f0de8a;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .badge-fase {
+      background: #edf5ff;
+      color: var(--azul);
+      border: 1px solid #c7dbef;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+
+    .tabela-simples th {
+      background: #eff5fb;
+      color: var(--azul);
+    }
+
+    .btn-topo {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      border-radius: 999px;
+      width: 48px;
+      height: 48px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .painel-ajuste {
+      background: linear-gradient(180deg, #fffdf6, #fff6db);
+      border: 1px solid #f0d992;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 26px rgba(181, 137, 0, 0.08);
+    }
+
+    .painel-ajuste h4,
+    .painel-ajuste h5 {
+      color: #8a6200;
+    }
+
+    .selo-ajuste {
+      display: inline-block;
+      background: #fff1bf;
+      color: #7d5a00;
+      border: 1px solid #efd47a;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .nota-explicativa {
+      background: #f3f9ff;
+      border: 1px solid #cfe0f0;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .nota-explicativa h5,
+    .nota-explicativa h6 {
+      color: var(--azul);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand text-primary" href="#topo"><i class="bi bi-people-fill me-2"></i>Plataforma RTS com IA</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#visao-geral">Visão Geral</a></li>
+          <li class="nav-item"><a class="nav-link" href="#publicos">Públicos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#etapas">Etapas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#ia-score">IA e Score</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tecnologia">Tecnologia</a></li>
+          <li class="nav-item"><a class="nav-link" href="#entregas">Entregas</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <span class="badge-custom"><i class="bi bi-stars me-2"></i>Documento revisado com os ajustes solicitados pela equipe</span>
+          <h1 class="display-5 fw-bold mb-3">O que será construído: plataforma de Recrutamento, Triagem e Seleção com apoio de IA</h1>
+          <p class="lead mb-4">Este material atualiza a proposta original em linguagem simples, destacando <strong>o que mudou</strong>, <strong>por que mudou</strong> e <strong>como o RH segue no controle com apoio de compliance</strong> em todas as decisões importantes.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="mini-tag">👤 Candidato</span>
+            <span class="mini-tag">🏢 Empresa</span>
+            <span class="mini-tag">🧑‍💼 RH / Selecionador</span>
+            <span class="mini-tag">🧭 Triagem estruturada</span>
+            <span class="mini-tag">🤖 IA como apoio</span>
+            <span class="mini-tag">🛡️ Compliance e LGPD</span>
+          </div>
+          <div class="mt-4">
+            <a class="btn btn-light btn-lg" href="modelo-pratico.html"><i class="bi bi-diagram-3 me-2"></i>Ver modelo prático aplicado</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="box-destaque">
+            <h5 class="fw-bold mb-3" style="color:#1f4e79;">Resumo executivo</h5>
+            <p class="mb-2">A proposta revisada é criar uma central web completa, responsiva e auditável para:</p>
+            <ul class="mb-0">
+              <li>abrir vagas a partir de requisição de pessoal;</li>
+              <li>padronizar recrutamento, triagem e seleção;</li>
+              <li>receber currículos de forma simples;</li>
+              <li>analisar aderência entre candidato e vaga com score explicável;</li>
+              <li>garantir retorno ao candidato por workflow, e-mail e SMS;</li>
+              <li>permitir revisão humana com travas contra favoritismo e exceções sem justificativa.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="painel-ajuste mt-4">
+        <span class="selo-ajuste">Mudanças incorporadas nesta versão</span>
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-3">
+            <h5 class="fw-bold mb-2">Triagem explícita</h5>
+            <p class="mb-0">O conceito deixa de ser apenas Recrutamento e Seleção e passa a ser, de forma clara, Recrutamento, Triagem e Seleção.</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <h5 class="fw-bold mb-2">Retorno obrigatório</h5>
+            <p class="mb-0">A solução passa a prever política formal de devolutiva ao candidato com notificações em toda a cadeia do processo.</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <h5 class="fw-bold mb-2">Controles de exceção</h5>
+            <p class="mb-0">Sempre que a decisão humana divergir do ranking ou do parecer da IA, a plataforma exigirá justificativa rastreável.</p>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <h5 class="fw-bold mb-2">Gamificação como evolução</h5>
+            <p class="mb-0">As lacunas identificadas pela triagem podem alimentar trilhas de desenvolvimento e certificados em uma fase seguinte.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="secao" id="visao-geral">
+      <div class="container">
+        <h2 class="titulo-secao">📌 Visão geral do projeto</h2>
+        <p class="subtitulo-secao">Considerando as diretrizes, requisitos e fluxos já consolidados nos documentos anteriores, a solução foi redesenhada como um ecossistema de <strong>Recrutamento, Triagem e Seleção</strong>, com três frentes centrais: candidato, empresa e RH. O sistema deverá abrir vagas com regra formal, organizar a triagem inicial, gerar score explicável, sustentar o workflow de devolutivas e manter trilha completa de auditoria e compliance.</p>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-search-heart"></i></div>
+              <h5 class="fw-bold">Problema que resolve</h5>
+              <p class="mb-0">Reduz tarefas manuais, padroniza a triagem inicial e evita o problema clássico do candidato ficar sem retorno, usando workflow e notificações por e-mail e SMS ao longo do processo.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-file-earmark-person"></i></div>
+              <h5 class="fw-bold">Experiência do candidato</h5>
+              <p class="mb-0">Menos formulários longos, candidatura simples, acompanhamento claro do status e uma política obrigatória de devolutiva para que o candidato saiba em que etapa está.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-clipboard2-data"></i></div>
+              <h5 class="fw-bold">Apoio ao RH</h5>
+              <p class="mb-0">A IA ajuda a organizar, comparar e justificar, mas a decisão final continua sendo humana, com travas, justificativas e regras de compliance para reduzir viés, favoritismo e o chamado “jeitinho brasileiro”.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-shield-check"></i></div>
+              <h5 class="fw-bold">Governança</h5>
+              <p class="mb-0">Tudo fica rastreado: avaliação da IA, mudanças de score, quebra de ranking, decisão do RH, justificativa de exceção, notificações e histórico completo da vaga.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="alerta-orientativo mt-4">
+          <strong>Em termos práticos:</strong> pense nesta solução como uma <strong>Central Inteligente de Recrutamento, Triagem e Seleção</strong>. Ela organiza currículos, requisições, vagas, filtros, análise de aderência e devolutivas, mas não substitui o olhar técnico do RH.
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">O que mudou nesta seção</span>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <h5 class="fw-bold">Triagem virou parte explícita da proposta</h5>
+              <p class="mb-0">Na versão anterior, a triagem aparecia diluída no fluxo. Agora ela foi assumida como etapa central, porque é nela que a plataforma realmente padroniza critérios e reduz subjetividade.</p>
+            </div>
+            <div class="col-md-6">
+              <h5 class="fw-bold">Feedback deixou de ser acessório</h5>
+              <p class="mb-0">O retorno ao candidato não pode depender da boa vontade do operador. Ele passa a ser requisito de processo, sustentado por workflow e notificações rastreáveis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="publicos">
+      <div class="container">
+        <h2 class="titulo-secao">👥 Quem usa a plataforma</h2>
+        <p class="subtitulo-secao">O sistema foi desenhado para atender públicos diferentes, cada um com sua jornada e sua responsabilidade dentro do processo. Nesta revisão, foram incorporados três reforços: a devolutiva obrigatória ao candidato, a abertura de vaga por requisição de pessoal e o tratamento da gamificação como trilha de evolução da solução.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>👤 Candidato</h4>
+              <p>É quem busca uma oportunidade e quer participar de um processo simples, transparente e com retorno claro.</p>
+              <ul>
+                <li>faz cadastro/login;</li>
+                <li>envia currículo;</li>
+                <li>recebe sugestão de vagas;</li>
+                <li>acompanha andamento da candidatura;</li>
+                <li>recebe feedbacks e notificações obrigatórias;</li>
+                <li>poderá receber trilhas de desenvolvimento e certificados em uma evolução futura da plataforma.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>🏢 Empresa</h4>
+              <p>É quem solicita e acompanha a vaga, respeitando uma política formal de abertura, critérios e comunicação.</p>
+              <ul>
+                <li>cria conta corporativa;</li>
+                <li>cadastra e verifica a empresa;</li>
+                <li>abre vaga por requisição de pessoal obrigatória;</li>
+                <li>define critérios, aprovadores e SLA do processo;</li>
+                <li>vê ranking de candidatos;</li>
+                <li>interage com o processo conforme a política definida, inclusive garantindo retorno ao candidato.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4>🧑‍💼 RH / Selecionador</h4>
+              <p>É o público mais estratégico da plataforma. A IA apoia, mas o RH valida, pondera, documenta exceções e decide.</p>
+              <ul>
+                <li>revisa ranking e justificativas;</li>
+                <li>compara candidatos;</li>
+                <li>aprova ou barra avanços com motivo registrado;</li>
+                <li>reclassifica score ou ordem do ranking com justificativa estruturada;</li>
+                <li>aciona exceções somente quando houver fundamento objetivo;</li>
+                <li>consulta logs e auditorias.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Direcionamento recomendado</span>
+          <h5 class="fw-bold">Como posicionar a gamificação sem inflar o MVP</h5>
+          <p class="mb-2">A equipe levantou corretamente a falta de uma trilha de desenvolvimento para competências pendentes. Isso é relevante porque transforma a reprovação em oportunidade de evolução.</p>
+          <p class="mb-0">A melhor direção é tratar a gamificação como <strong>módulo evolutivo</strong>: primeiro a plataforma identifica lacunas e registra feedback; depois, em uma segunda fase, conecta essas lacunas a conteúdos, badges e certificados. Assim, o MVP não perde foco operacional, mas já nasce preparado para essa expansão.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="etapas">
+      <div class="container">
+        <h2 class="titulo-secao">🧭 Etapas do que será construído</h2>
+        <p class="subtitulo-secao">Abaixo está a visão didática do processo de construção. A lógica continua acessível para público não técnico, mas agora com reforço explícito de governança, triagem estruturada e controle de exceções humanas.</p>
+
+        <div class="passo">
+          <h5><span class="numero">1</span>Entendimento das regras do processo seletivo</h5>
+          <p class="mb-2">Primeiro, são organizadas as regras do negócio: como a vaga nasce pela requisição de pessoal, quais critérios geram aderência, quais motivos eliminam um candidato e quando o RH precisa justificar uma exceção.</p>
+          <p class="mb-0"><strong>Por que isso é importante?</strong> Porque um sistema de RH não pode ser construído apenas como tela bonita. Ele precisa refletir o processo real, inclusive política de devolutiva e regras contra decisões arbitrárias.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">2</span>Desenho das jornadas dos usuários</h5>
+          <p class="mb-2">Depois, são desenhados os caminhos de candidato, empresa, RH e administrador, já prevendo quem pode abrir vaga, aprovar etapas, receber alertas e registrar justificativas.</p>
+          <p class="mb-0"><strong>Na prática:</strong> define-se quem entra em qual tela, o que cada pessoa pode fazer, quais gatilhos de notificação existirão e quais decisões exigem fundamentação.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">3</span>Estruturação dos dados</h5>
+          <p class="mb-2">Em seguida, é criada a base do sistema: usuários, requisições de pessoal, vagas, currículos, candidaturas, avaliações da IA, pareceres do RH, notificações, justificativas de exceção e auditoria.</p>
+          <p class="mb-0"><strong>Em termos práticos:</strong> é como montar corretamente os armários, gavetas, etiquetas e histórico de assinatura antes de começar a guardar os documentos.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">4</span>Construção do motor de análise</h5>
+          <p class="mb-2">Aqui entram as regras de score, critérios obrigatórios, filtros de aderência, ranking, faixas de revisão humana e explicações do resultado.</p>
+          <p class="mb-0"><strong>Objetivo:</strong> não apenas dar uma nota, mas mostrar de onde ela veio e em quais casos o sistema exigirá revisão mais cuidadosa.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">5</span>Integração com a IA</h5>
+          <p class="mb-2">A IA será usada para ler currículos, organizar dados, identificar compatibilidade com vagas, apontar lacunas, sugerir perguntas de entrevista e indicar possíveis trilhas de desenvolvimento.</p>
+          <p class="mb-0"><strong>Ponto central:</strong> mesmo quando a IA der nota alta, o humano poderá discordar, mas a plataforma exigirá trava e tela de justificativa quando houver quebra relevante do parecer ou do ranking. Isso diferencia correção legítima de possível favorecimento.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">6</span>Criação das telas e painéis</h5>
+          <p class="mb-2">Após as regras e dados estarem definidos, são construídas as telas da aplicação: login, requisição de pessoal, dashboards, ranking, pareceres, notificações, justificativas de exceção e relatórios.</p>
+          <p class="mb-0"><strong>Resultado esperado:</strong> uma interface clara, profissional e responsiva para computador, tablet e celular, sem transformar cada decisão em burocracia excessiva.</p>
+        </div>
+
+        <div class="passo">
+          <h5><span class="numero">7</span>Testes, validação e documentação</h5>
+          <p class="mb-0">Por fim, o projeto é testado, documentado e explicado em manuais técnicos e materiais para público não técnico, incluindo testes de consistência do score, validação das travas de exceção e revisão das rotinas de devolutiva ao candidato.</p>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Questão crítica desta revisão</span>
+          <h5 class="fw-bold">Como evitar favoritismo sem travar o trabalho do RH</h5>
+          <p class="mb-2">O cenário citado pela equipe é correto: um humano pode querer desclassificar alguém muito bem pontuado ou favorecer um conhecido com score inferior. O sistema precisa distinguir decisão técnica de desvio de processo.</p>
+          <p class="mb-0">A direção mais equilibrada é acionar controles só quando houver exceção relevante: por exemplo, quando alguém com score inferior avança acima de outro melhor ranqueado, ou quando um score muito alto é descartado sem justificativa objetiva. Nesses casos, a plataforma pede motivo estruturado, comentário complementar e, se necessário, segunda validação.</p>
+        </div>
+
+        <div class="mt-4 card-box">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <h4 class="mb-1">Caso prático: como a IA pode calcular aderência à vaga</h4>
+              <p class="mb-0 text-secondary">Exemplo ilustrativo para mostrar, de forma objetiva, como a plataforma pode apoiar o RH sem substituir a análise humana.</p>
+            </div>
+            <button class="btn btn-primary btn-lg shadow-sm" id="btnSimularScore" type="button"><i class="bi bi-cpu me-2"></i>Simular análise prática</button>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-6">
+              <div class="border rounded-4 p-3 h-100 bg-light">
+                <h5 class="fw-bold">Vaga exemplo</h5>
+                <p class="mb-2"><strong>Cargo:</strong> Analista de RH Pleno</p>
+                <p class="mb-2"><strong>Requisitos obrigatórios:</strong></p>
+                <ul>
+                  <li>graduação concluída em RH, Administração ou Psicologia;</li>
+                  <li>experiência mínima de 2 anos com recrutamento e seleção;</li>
+                  <li>experiência com triagem, entrevistas e parecer técnico;</li>
+                  <li>disponibilidade para atuação híbrida.</li>
+                </ul>
+                <p class="mb-2"><strong>Diferenciais desejáveis:</strong></p>
+                <ul class="mb-0">
+                  <li>vivência com indicadores de RH;</li>
+                  <li>conhecimento em ATS ou sistemas de seleção;</li>
+                  <li>boa comunicação escrita.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="border rounded-4 p-3 h-100 bg-light">
+                <h5 class="fw-bold">Candidata exemplo</h5>
+                <p class="mb-2"><strong>Nome fictício:</strong> Mariana Alves</p>
+                <p class="mb-2"><strong>Currículo identificado pela IA:</strong></p>
+                <ul>
+                  <li>graduação em Psicologia concluída;</li>
+                  <li>3 anos de experiência com recrutamento e seleção;</li>
+                  <li>atuação com entrevistas por competência e triagem;</li>
+                  <li>participação em relatórios e indicadores simples;</li>
+                  <li>experiência intermediária com sistema de gestão de candidatos;</li>
+                  <li>disponibilidade híbrida confirmada.</li>
+                </ul>
+                <p class="mb-0"><strong>Observação:</strong> a IA organizaria essas informações automaticamente a partir do currículo enviado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mt-1">
+            <div class="col-lg-7">
+              <div class="table-responsive">
+                <table class="table table-bordered align-middle tabela-simples">
+                  <thead>
+                    <tr>
+                      <th>Critério</th>
+                      <th>Peso</th>
+                      <th>Nota da candidata</th>
+                      <th>Resultado ponderado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Formação acadêmica</td>
+                      <td>15</td>
+                      <td id="notaFormacao">—</td>
+                      <td id="pondFormacao">—</td>
+                    </tr>
+                    <tr>
+                      <td>Experiência prática</td>
+                      <td>35</td>
+                      <td id="notaExperiencia">—</td>
+                      <td id="pondExperiencia">—</td>
+                    </tr>
+                    <tr>
+                      <td>Hard skills / processos de RH</td>
+                      <td>25</td>
+                      <td id="notaHard">—</td>
+                      <td id="pondHard">—</td>
+                    </tr>
+                    <tr>
+                      <td>Soft skills / comunicação</td>
+                      <td>15</td>
+                      <td id="notaSoft">—</td>
+                      <td id="pondSoft">—</td>
+                    </tr>
+                    <tr>
+                      <td>Diferenciais desejáveis</td>
+                      <td>10</td>
+                      <td id="notaDiferenciais">—</td>
+                      <td id="pondDiferenciais">—</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="3">Score final estimado</th>
+                      <th id="scoreFinal">Clique em “Simular análise prática”</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="quadro-resumo h-100">
+                <h5 class="fw-bold">Leitura do resultado pelo RH</h5>
+                <ul>
+                  <li><strong>Requisitos obrigatórios:</strong> atendidos.</li>
+                  <li><strong>Aderência geral:</strong> <span id="aderenciaFinal">aguardando simulação</span>.</li>
+                  <li><strong>Recomendação da IA:</strong> <span id="recomendacaoIA">aguardando simulação</span>.</li>
+                  <li><strong>Ponto forte principal:</strong> experiência aderente e formação compatível.</li>
+                  <li><strong>Ponto de atenção:</strong> aprofundar domínio de indicadores e sistema ATS na entrevista.</li>
+                  <li><strong>Se houver divergência humana:</strong> a plataforma exigirá justificativa registrada para avanço, pausa ou reprovação fora do padrão esperado.</li>
+                </ul>
+                <div class="progress mb-3" role="progressbar" aria-label="Aderência da vaga" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar" id="barraAderencia" style="width: 0%">0%</div>
+                </div>
+                <p class="mb-2"><strong>Fórmula didática:</strong> score final = soma de (nota do critério × peso do critério) ÷ 100.</p>
+                <p class="mb-0">Na prática, o RH não receberia apenas a nota. Também veria justificativas, lacunas, requisitos obrigatórios, histórico e possibilidade de reponderação com justificativa.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 alert alert-info border-0">
+            <strong>Exemplo de parecer gerado pela IA:</strong> “A candidata apresenta boa aderência à vaga de Analista de RH Pleno. Atende aos requisitos obrigatórios, demonstra experiência consistente em recrutamento, triagem e seleção e possui formação compatível. Recomenda-se avanço para entrevista, com investigação complementar sobre indicadores de RH e profundidade no uso de sistemas de seleção. Caso a decisão humana seja diferente, o sistema deverá exigir justificativa objetiva.”
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white">
+      <div class="container">
+        <h2 class="titulo-secao">🔄 Como o processo funcionará no dia a dia</h2>
+        <p class="subtitulo-secao">Os fluxos definidos para o projeto mostram como a plataforma deve operar de ponta a ponta: abertura formal da vaga, triagem, análise de currículos, ranking, revisão humana, devolutivas e auditoria.</p>
+
+        <div class="linha-tempo">
+          <div class="evento">
+            <h5 class="fw-bold">1. Cadastro e acesso</h5>
+            <p class="mb-0">Cada perfil entra com seu próprio tipo de acesso: candidato, empresa, RH ou administrador.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">2. Abertura da vaga por requisição de pessoal</h5>
+            <p class="mb-0">A empresa abre a vaga a partir de uma requisição de pessoal obrigatória. A IA revisa o texto, aponta problemas de compliance e só então a vaga segue para publicação.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">3. Envio do currículo e triagem inicial</h5>
+            <p class="mb-0">O candidato sobe seu currículo, o sistema organiza os dados, cruza o perfil com vagas compatíveis e prepara a triagem com base em critérios padronizados.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">4. Matching e score</h5>
+            <p class="mb-0">A plataforma calcula aderência, aplica filtros obrigatórios, aponta lacunas e gera uma recomendação explicável, sem transformar a nota em decisão automática.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">5. Revisão do RH</h5>
+            <p class="mb-0">O RH visualiza o ranking, compara candidatos, valida a recomendação e registra sua decisão. Se avançar alguém com score inferior ou barrar um perfil muito aderente, o sistema exige justificativa objetiva e pode pedir segunda validação.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">6. Comunicação e histórico</h5>
+            <p class="mb-0">O sistema envia notificações por workflow, e-mail e SMS, registra todas as ações e mantém uma trilha de auditoria para consulta futura, do analista responsável até os aprovadores finais.</p>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Como manter embasamento sem burocracia</span>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <h5 class="fw-bold">Motivos padronizados</h5>
+              <p class="mb-0">Em vez de campos longos e abertos para tudo, o RH seleciona um motivo padrão e só complementa com texto quando necessário.</p>
+            </div>
+            <div class="col-md-4">
+              <h5 class="fw-bold">Trava só em caso crítico</h5>
+              <p class="mb-0">A segunda validação só aparece quando houver quebra relevante do ranking ou reprovação contraditória ao parecer da IA.</p>
+            </div>
+            <div class="col-md-4">
+              <h5 class="fw-bold">Auditoria automática</h5>
+              <p class="mb-0">O registro de quem mudou, quando mudou e por que mudou é automático, sem depender de planilhas ou controles paralelos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="ia-score">
+      <div class="container">
+        <h2 class="titulo-secao">🤖 Como a IA e o score vão funcionar</h2>
+        <p class="subtitulo-secao">No projeto, a IA não aparece como “juíza final”. Ela é uma assistente analítica para a triagem e para a organização do processo. O score, por sua vez, é o mecanismo numérico que ajuda a priorizar aderência entre vaga e candidato. Tudo precisa ser explicável, auditável e revisável pelo RH.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>O que a IA fará</h4>
+              <ul>
+                <li>ler e estruturar o currículo em formato organizado;</li>
+                <li>analisar o texto da vaga;</li>
+                <li>comparar candidato e vaga;</li>
+                <li>identificar aderências, lacunas e riscos;</li>
+                <li>sugerir perguntas para entrevista;</li>
+                <li>produzir explicações em linguagem humana;</li>
+                <li>apontar trilhas possíveis de desenvolvimento para competências pendentes.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>O que a IA não fará</h4>
+              <ul>
+                <li>não contratará ninguém sozinha;</li>
+                <li>não substituirá a decisão do RH;</li>
+                <li>não apagará a necessidade de revisão humana;</li>
+                <li>não legitimará mudança de decisão sem registro;</li>
+                <li>não atuará sem rastreabilidade.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-7">
+            <div class="card-box h-100">
+              <h4>Como o score pode ser entendido por um público não técnico</h4>
+              <p>O score é uma nota de aderência entre o perfil do candidato e os requisitos da vaga. Essa nota será formada por pesos configuráveis, por exemplo:</p>
+              <div class="table-responsive">
+                <table class="table table-bordered tabela-simples align-middle">
+                  <thead>
+                    <tr>
+                      <th>Dimensão</th>
+                      <th>Exemplo de análise</th>
+                      <th>Peso no resultado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Formação</td>
+                      <td>Curso exigido ou área de formação aderente</td>
+                      <td>Baixo, médio ou alto conforme a vaga</td>
+                    </tr>
+                    <tr>
+                      <td>Hard skills</td>
+                      <td>Ferramentas, conhecimentos técnicos e certificações</td>
+                      <td>Alto em vagas técnicas</td>
+                    </tr>
+                    <tr>
+                      <td>Experiência prática</td>
+                      <td>Tempo e tipo de vivência profissional</td>
+                      <td>Muito relevante em vagas pleno e sênior</td>
+                    </tr>
+                    <tr>
+                      <td>Soft skills</td>
+                      <td>Comunicação, liderança, organização, colaboração</td>
+                      <td>Variável conforme a função</td>
+                    </tr>
+                    <tr>
+                      <td>Requisitos obrigatórios</td>
+                      <td>Idiomas, disponibilidade, formação mínima, licença etc.</td>
+                      <td>Pode bloquear o avanço</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="mb-0"><strong>Exemplo simples:</strong> se a vaga exige inglês obrigatório e o currículo não comprova isso, o sistema poderá aplicar um bloqueio educativo ou impedir o avanço, conforme a regra da vaga. Ainda assim, qualquer exceção ficará rastreada.</p>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="quadro-resumo h-100">
+              <h4>Transparência do resultado</h4>
+              <p>O candidato e o RH não verão apenas uma nota. O sistema mostrará:</p>
+              <ul>
+                <li>quais critérios foram usados;</li>
+                <li>quais pesos influenciaram o cálculo;</li>
+                <li>o que ajudou a subir a nota;</li>
+                <li>o que reduziu a aderência;</li>
+                <li>se houve requisito eliminatório;</li>
+                <li>qual foi a recomendação da IA;</li>
+                <li>se houve revisão humana posterior e qual foi a justificativa.</li>
+              </ul>
+              <p class="mb-0">Isso atende ao pedido de score explicável e de validação humana permanente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Aperfeiçoamento de rumo</span>
+          <h5 class="fw-bold">Controles práticos para evitar favoritismo e “jeitinho”</h5>
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-3">
+              <p class="mb-0"><strong>1. Score explicado:</strong> a nota não aparece sozinha; ela vem acompanhada de critérios, pesos e lacunas.</p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <p class="mb-0"><strong>2. Quebra de ranking vigiada:</strong> quando um candidato abaixo passa na frente de outro melhor ranqueado, o sistema abre uma etapa de justificativa.</p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <p class="mb-0"><strong>3. Exceção com evidência:</strong> o RH pode divergir da IA, mas precisa informar razão objetiva, e não opinião vaga.</p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <p class="mb-0"><strong>4. Auditoria simples:</strong> tudo fica registrado automaticamente para compliance, sem criar planilhas externas ou retrabalho manual.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white">
+      <div class="container">
+        <h2 class="titulo-secao">🛡️ Compliance, LGPD e controle do processo</h2>
+        <p class="subtitulo-secao">O projeto também foi pensado para proteger a empresa, o candidato e o RH. Isso inclui análise do texto da vaga, política de retorno ao candidato, consentimento LGPD, retenção de currículo, logs, exceções controladas e trilha de auditoria.</p>
+
+        <div class="accordion" id="accordionGovernanca">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
+                Compliance da vaga
+              </button>
+            </h2>
+            <div id="item1" class="accordion-collapse collapse show" data-bs-parent="#accordionGovernanca">
+              <div class="accordion-body">
+                Antes da vaga ser publicada, a IA fará uma leitura preventiva para identificar termos inadequados, discriminatórios, incoerentes ou potencialmente ilegais. Se houver problema, a publicação pode ser bloqueada até correção.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
+                Workflow e devolutiva obrigatória
+              </button>
+            </h2>
+            <div id="item2" class="accordion-collapse collapse" data-bs-parent="#accordionGovernanca">
+              <div class="accordion-body">
+                O retorno ao candidato passa a ser regra de processo, e não cortesia. A plataforma deverá acionar workflow, e-mail e SMS para registrar convites, mudanças de etapa, reprovações e encerramento da vaga.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
+                LGPD e consentimento
+              </button>
+            </h2>
+            <div id="item3" class="accordion-collapse collapse" data-bs-parent="#accordionGovernanca">
+              <div class="accordion-body">
+                O sistema registrará consentimento do candidato, regras de retenção dos dados e histórico mínimo de uso. Isso reduz riscos e melhora a governança do tratamento de dados pessoais.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item4">
+                Exceções e quebra de ranking
+              </button>
+            </h2>
+            <div id="item4" class="accordion-collapse collapse" data-bs-parent="#accordionGovernanca">
+              <div class="accordion-body">
+                Quando o RH quiser promover um candidato com score inferior, rebaixar alguém muito aderente ou divergir materialmente da recomendação da IA, a plataforma deverá exigir justificativa estruturada e, em casos críticos, segunda aprovação.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#item5">
+                Auditoria e rastreabilidade
+              </button>
+            </h2>
+            <div id="item5" class="accordion-collapse collapse" data-bs-parent="#accordionGovernanca">
+              <div class="accordion-body">
+                Cada ação importante poderá ser registrada: quem mudou, quando mudou, o que mudou e por quê. Isso é essencial quando o RH repondera score, altera o andamento de um candidato ou registra uma exceção de processo.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="tecnologia">
+      <div class="container">
+        <h2 class="titulo-secao">🧱 Como a solução será construída tecnicamente</h2>
+        <p class="subtitulo-secao">Mesmo sendo um documento voltado a um público não técnico, vale mostrar de forma simples quais tecnologias sustentarão a plataforma. O material continua prevendo PHP, MySQL, HTML, CSS, JavaScript, Bootstrap, Docker, Docker Compose e WSL, mas esta revisão deixa mais claro que a solução também precisa sustentar workflow, notificações e trilha de auditoria.</p>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100 text-center">
+              <h1>🐘</h1>
+              <h5>PHP</h5>
+              <p class="mb-0">Fará a lógica do sistema, regras do processo, workflow de etapas, autenticação, integrações e comunicação com o banco.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100 text-center">
+              <h1>🗄️</h1>
+              <h5>MySQL</h5>
+              <p class="mb-0">Guardará os dados de usuários, empresas, requisições, vagas, currículos, candidaturas, scores, notificações e auditorias.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100 text-center">
+              <h1>🖥️</h1>
+              <h5>HTML + CSS + JS + Bootstrap</h5>
+              <p class="mb-0">Construirão as telas, inclusive os painéis de triagem, ranking, justificativa de exceção e acompanhamento em celular e tablet.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100 text-center">
+              <h1>📦</h1>
+              <h5>Docker + WSL</h5>
+              <p class="mb-0">Permitirão rodar o sistema localmente de forma organizada, com menos conflito entre dependências.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 g-4">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>Como entram workflow, e-mail e SMS?</h4>
+              <p class="mb-0">Esses recursos entram como parte da lógica da aplicação. Cada mudança de etapa gera eventos internos, que podem disparar aviso na plataforma, e-mail e SMS conforme a política definida para a vaga e para o candidato.</p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>O que é “modo simulação” da IA?</h4>
+              <p class="mb-0">É uma forma de testar o sistema sem depender imediatamente da API real da OpenAI. Assim, o projeto pode ser validado internamente antes de consumir chamadas reais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white">
+      <div class="container">
+        <h2 class="titulo-secao">🖼️ Principais telas esperadas</h2>
+        <p class="subtitulo-secao">O material define um conjunto amplo de telas públicas, telas do candidato, telas da empresa e painéis do RH/Admin. Nesta revisão, foram adicionadas as telas necessárias para sustentar requisição de pessoal, justificativas de exceção e trilhas futuras de desenvolvimento.</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3"><div class="card-box"><h5>🌐 Públicas</h5><p>Home, login, cadastro de candidato, cadastro de empresa, recuperação de senha e páginas institucionais sobre política de privacidade e retorno.</p></div></div>
+          <div class="col-md-6 col-lg-3"><div class="card-box"><h5>👤 Candidato</h5><p>Dashboard, perfil, currículos, vagas sugeridas, candidaturas, feedbacks, notificações e, como evolução, trilhas de desenvolvimento e certificados.</p></div></div>
+          <div class="col-md-6 col-lg-3"><div class="card-box"><h5>🏢 Empresa</h5><p>Dashboard, perfil, verificação, requisição de pessoal, vagas, compliance, candidatos por vaga, ranking e acompanhamento do SLA do processo.</p></div></div>
+          <div class="col-md-6 col-lg-3"><div class="card-box"><h5>🧑‍💼 RH/Admin</h5><p>Painéis de matching, triagem, parecer, justificativa de exceção, auditoria, scoring, fairness, workflow e configurações.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="entregas">
+      <div class="container">
+        <h2 class="titulo-secao">📦 O que deverá ser entregue no projeto</h2>
+        <p class="subtitulo-secao">O documento-base pede que a entrega vá além do código. A solução deve incluir estrutura de pastas, banco, seeds, documentação técnica, manual explicativo, apresentação HTML, checklist de testes e plano de melhorias. Nesta revisão, as entregas também passam a refletir governança, workflow e política de devolutiva.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>Entregas técnicas</h4>
+              <ul class="mb-0">
+                <li>código-fonte da aplicação;</li>
+                <li>Dockerfile e docker-compose;</li>
+                <li>.env.example;</li>
+                <li>scripts SQL e seeds;</li>
+                <li>integração com OpenAI;</li>
+                <li>motor de scoring, workflow e auditoria;</li>
+                <li>regras de exceção e quebra de ranking;</li>
+                <li>integração de notificações;</li>
+                <li>documentação técnica;</li>
+                <li>checklist de testes.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4>Entregas para comunicação e uso</h4>
+              <ul class="mb-0">
+                <li>manual para público não técnico;</li>
+                <li>apresentação web em HTML/CSS/JS/Bootstrap;</li>
+                <li>explicação do fluxo de IA;</li>
+                <li>explicação das regras de negócio;</li>
+                <li>explicação da política de retorno ao candidato;</li>
+                <li>explicação da tela de justificativa e das travas de compliance;</li>
+                <li>documentação da modelagem de dados;</li>
+                <li>plano de melhorias futuras;</li>
+                <li>direcionamento da gamificação como evolução do produto;</li>
+                <li>prompt para NotebookLM transformar a documentação em apresentação.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 box-destaque">
+          <h4 class="text-primary">Leitura prática para RH</h4>
+          <p class="mb-2">O mais importante para quem atua no RH é entender que este projeto não é somente “um sistema com IA”.</p>
+          <p class="mb-0">Ele é uma <strong>plataforma de apoio ao recrutamento, à triagem e à seleção</strong>, com regras, critérios, filtros, transparência, rastreabilidade e revisão humana. Em outras palavras: a tecnologia organiza, acelera e documenta; o RH continua avaliando e decidindo, com retaguarda de compliance para evitar viés, favoritismo e “jeitinho brasileiro”.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white">
+      <div class="container">
+        <h2 class="titulo-secao">🗓️ Cronograma macro de construção</h2>
+        <p class="subtitulo-secao">A estrutura do material sugere uma evolução por blocos, o que é ideal para um projeto desse porte. A revisão abaixo prioriza primeiro a governança do processo e depois os diferenciais evolutivos.</p>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100">
+              <span class="badge-fase">Fase 1</span>
+              <h5 class="mt-3">Arquitetura e regras</h5>
+              <p class="mb-0">Modelagem do processo, jornadas, banco de dados, política de retorno e regras de exceção.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100">
+              <span class="badge-fase">Fase 2</span>
+              <h5 class="mt-3">Backend e IA</h5>
+              <p class="mb-0">Serviços de cadastro, requisição de pessoal, scoring, matching, compliance, workflow, auditoria e integração com OpenAI.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100">
+              <span class="badge-fase">Fase 3</span>
+              <h5 class="mt-3">Front-end e dashboards</h5>
+              <p class="mb-0">Criação das telas, navegação, painéis, notificações, justificativas de exceção e experiência do usuário.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card-box h-100">
+              <span class="badge-fase">Fase 4</span>
+              <h5 class="mt-3">Validação e evolução</h5>
+              <p class="mb-0">Testes, ajustes, documentação, relatório de fairness e preparação da trilha de gamificação para a fase seguinte.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="container">
+        <h2 class="titulo-secao">✅ Conclusão</h2>
+        <div class="quadro-resumo">
+          <p><strong>O que será construído?</strong> Uma plataforma completa de Recrutamento, Triagem e Seleção com IA, voltada para tornar o processo mais organizado, rápido, explicável e seguro.</p>
+          <p><strong>Qual o diferencial?</strong> A IA ajuda a estruturar, comparar, sugerir e justificar, mas nunca substitui o papel do RH na decisão e tampouco permite exceções sem rastreabilidade.</p>
+          <p><strong>Por que isso importa?</strong> Porque o projeto combina eficiência operacional com governança, compliance, experiência do candidato, retorno obrigatório e transparência do processo seletivo.</p>
+          <p class="mb-0"><strong>Em resumo:</strong> é uma solução pensada para apoiar RH, reforçar a triagem e reduzir espaço para favoritismo, sem tirar a autonomia técnica do RH.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="mb-1 fw-semibold">Documento explicativo da solução de Recrutamento, Triagem e Seleção com IA</p>
+      <p class="mb-0">Material em HTML, CSS, JavaScript e Bootstrap, com linguagem didática para equipes técnicas de RH e demais públicos de negócio.</p>
+    </div>
+  </footer>
+
+  <button class="btn btn-primary btn-topo" id="btnTopo" aria-label="Voltar ao topo">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const btnTopo = document.getElementById('btnTopo');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btnTopo.style.display = 'flex';
+      } else {
+        btnTopo.style.display = 'none';
+      }
+    });
+
+    btnTopo.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const btnSimularScore = document.getElementById('btnSimularScore');
+
+    if (btnSimularScore) {
+      btnSimularScore.addEventListener('click', () => {
+        const criterios = {
+          formacao: { nota: 100, peso: 15, notaId: 'notaFormacao', pondId: 'pondFormacao' },
+          experiencia: { nota: 90, peso: 35, notaId: 'notaExperiencia', pondId: 'pondExperiencia' },
+          hard: { nota: 84, peso: 25, notaId: 'notaHard', pondId: 'pondHard' },
+          soft: { nota: 88, peso: 15, notaId: 'notaSoft', pondId: 'pondSoft' },
+          diferenciais: { nota: 75, peso: 10, notaId: 'notaDiferenciais', pondId: 'pondDiferenciais' }
+        };
+
+        let score = 0;
+
+        Object.values(criterios).forEach((item) => {
+          const ponderado = (item.nota * item.peso) / 100;
+          score += ponderado;
+          document.getElementById(item.notaId).textContent = `${item.nota} / 100`;
+          document.getElementById(item.pondId).textContent = `${ponderado.toFixed(1)} pontos`;
+        });
+
+        const scoreArredondado = score.toFixed(1);
+        let aderencia = 'Média';
+        let recomendacao = 'Manter em observação';
+
+        if (score >= 85) {
+          aderencia = 'Alta';
+          recomendacao = 'Recomendar avanço';
+        } else if (score >= 70) {
+          aderencia = 'Boa';
+          recomendacao = 'Avançar com validação do RH';
+        }
+
+        document.getElementById('scoreFinal').textContent = `${scoreArredondado} / 100`;
+        document.getElementById('aderenciaFinal').textContent = `${aderencia} (${scoreArredondado}%)`;
+        document.getElementById('recomendacaoIA').textContent = recomendacao;
+
+        const barra = document.getElementById('barraAderencia');
+        barra.style.width = `${scoreArredondado}%`;
+        barra.textContent = `${scoreArredondado}%`;
+        barra.setAttribute('aria-valuenow', scoreArredondado);
+      });
+    }
+  </script>
+</body>
+</html>

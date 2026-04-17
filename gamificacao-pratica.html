@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamificação Prática - Desenvolvimento do Candidato</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #1f4e79;
+      --azul-claro: #eaf4ff;
+      --verde: #1f7a5c;
+      --verde-claro: #eafaf2;
+      --dourado: #b58900;
+      --laranja: #d97706;
+      --cinza: #5b6470;
+      --fundo: #f7f9fc;
+      --card: #ffffff;
+      --borda: #d9e2ec;
+      --grafite: #25313c;
+    }
+
+    body {
+      background: var(--fundo);
+      color: var(--grafite);
+      scroll-behavior: smooth;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(31,78,121,0.98), rgba(217,119,6,0.90));
+      color: white;
+      padding: 80px 0 60px;
+    }
+
+    .hero .badge-custom {
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+    }
+
+    .secao {
+      padding: 64px 0;
+    }
+
+    .titulo-secao {
+      color: var(--azul);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .subtitulo-secao {
+      color: var(--cinza);
+      max-width: 980px;
+      margin-bottom: 28px;
+    }
+
+    .navbar {
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    }
+
+    .navbar-brand,
+    .nav-link {
+      font-weight: 600;
+    }
+
+    .card-box {
+      background: var(--card);
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 24px;
+      height: 100%;
+      box-shadow: 0 8px 22px rgba(31, 78, 121, 0.05);
+    }
+
+    .icone-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+      background: var(--azul-claro);
+      color: var(--azul);
+    }
+
+    .mini-tag {
+      background: #eef3f8;
+      color: var(--azul);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.84rem;
+      display: inline-block;
+      margin: 4px 8px 4px 0;
+    }
+
+    .painel-ajuste {
+      background: linear-gradient(180deg, #fffaf0, #fff1d6);
+      border: 1px solid #f2d596;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 26px rgba(217, 119, 6, 0.08);
+    }
+
+    .painel-ajuste h4,
+    .painel-ajuste h5 {
+      color: #8a6200;
+    }
+
+    .selo-ajuste {
+      display: inline-block;
+      background: #fff1bf;
+      color: #7d5a00;
+      border: 1px solid #efd47a;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .nota-explicativa {
+      background: #f3f9ff;
+      border: 1px solid #cfe0f0;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .alerta-orientativo {
+      background: #fff8df;
+      border: 1px solid #f0de8a;
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+
+    .box-destaque {
+      background: linear-gradient(180deg, #ffffff, #eef6ff);
+      border: 1px solid #c9dff5;
+      border-radius: 20px;
+      padding: 24px;
+      color: #1f2d3d;
+      box-shadow: 0 10px 26px rgba(31, 78, 121, 0.08);
+    }
+
+    .box-destaque h4,
+    .box-destaque h5,
+    .box-destaque p,
+    .box-destaque li {
+      color: #1f2d3d;
+    }
+
+    .trilha-card {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+      height: 100%;
+    }
+
+    .trilha-topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .badge-nivel {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: inline-block;
+    }
+
+    .nivel-base {
+      background: #e8f0fe;
+      border: 1px solid #c9dff5;
+      color: var(--azul);
+    }
+
+    .nivel-avanco {
+      background: #fff1d6;
+      border: 1px solid #f2d596;
+      color: #8a6200;
+    }
+
+    .nivel-pronto {
+      background: #dff4ea;
+      border: 1px solid #bfe6d1;
+      color: #155a43;
+    }
+
+    .missao {
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fbfdff;
+      margin-bottom: 14px;
+    }
+
+    .missao.concluida {
+      background: #f1fbf5;
+      border-color: #bfe6d1;
+    }
+
+    .missao .cabecalho {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .xp-badge {
+      background: #eef6ff;
+      color: var(--azul);
+      border: 1px solid #c9dff5;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .certificado-box {
+      background: linear-gradient(135deg, #fffef8, #f8f1d0);
+      border: 1px solid #e8d58a;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 12px 28px rgba(181, 137, 0, 0.10);
+    }
+
+    .certificado-selo {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #fff5cf;
+      border: 3px solid #dfc05d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a6200;
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+    }
+
+    .kpi-box {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      height: 100%;
+    }
+
+    .kpi-box .valor {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--azul);
+      line-height: 1;
+    }
+
+    .fluxo-linha {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .fluxo-linha::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #cfe0f0;
+    }
+
+    .evento {
+      position: relative;
+      margin-bottom: 22px;
+      background: white;
+      padding: 18px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--borda);
+    }
+
+    .evento::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 22px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--verde);
+      border: 3px solid #dff4ea;
+    }
+
+    .tabela-simples th {
+      background: #eff5fb;
+      color: var(--azul);
+    }
+
+    .progresso-box {
+      background: white;
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+
+    .medalha {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      margin: 4px 8px 4px 0;
+      font-weight: 700;
+      font-size: 0.82rem;
+      border: 1px solid #c9dff5;
+      background: #eef6ff;
+      color: var(--azul);
+    }
+
+    .medalha.desbloqueada {
+      background: #fff1d6;
+      border-color: #f2d596;
+      color: #8a6200;
+    }
+
+    .footer {
+      background: #11283f;
+      color: #e7eef5;
+      padding: 36px 0;
+    }
+
+    .btn-topo {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      border-radius: 999px;
+      width: 48px;
+      height: 48px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container">
+      <a class="navbar-brand text-primary" href="#topo"><i class="bi bi-trophy-fill me-2"></i>Gamificação Prática</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        <ul class="navbar-nav ms-auto gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#visao">Visão</a></li>
+          <li class="nav-item"><a class="nav-link" href="#modelo">Modelo</a></li>
+          <li class="nav-item"><a class="nav-link" href="#simulacao">Simulação</a></li>
+          <li class="nav-item"><a class="nav-link" href="#certificado">Certificado</a></li>
+          <li class="nav-item"><a class="nav-link" href="#rh">Leitura RH e Operação</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <span class="badge-custom"><i class="bi bi-controller me-2"></i>Módulo prático de desenvolvimento do candidato</span>
+          <h1 class="display-5 fw-bold mb-3">Gamificação aplicada às lacunas identificadas em uma vaga de logística</h1>
+          <p class="lead mb-4">Esta página mostra, de forma prática, como a plataforma pode transformar lacunas detectadas no processo seletivo de logística em <strong>trilhas de desenvolvimento</strong>, com <strong>missões</strong>, <strong>XP</strong>, <strong>badges</strong> e <strong>certificado</strong>, sem perder o foco em empregabilidade real.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="mini-tag">🎯 Lacunas da triagem logística</span>
+            <span class="mini-tag">🧩 Missões objetivas</span>
+            <span class="mini-tag">⭐ XP e níveis</span>
+            <span class="mini-tag">🏅 Badges</span>
+            <span class="mini-tag">📜 Certificado</span>
+            <span class="mini-tag">📈 Leitura para RH e operação</span>
+          </div>
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <a class="btn btn-light btn-lg" href="modelo-pratico.html"><i class="bi bi-arrow-left me-2"></i>Voltar ao modelo prático</a>
+            <button class="btn btn-outline-light btn-lg" onclick="window.print()"><i class="bi bi-printer me-2"></i>Imprimir/PDF</button>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="box-destaque">
+            <h5 class="fw-bold mb-3">O que esta página entrega</h5>
+            <ul class="mb-0">
+              <li>uma mecânica real de gamificação, e não só a ideia abstrata;</li>
+              <li>um exemplo de candidato com lacunas convertidas em trilha;</li>
+              <li>regras simples para emissão de badge e certificado;</li>
+              <li>leitura clara de valor para candidato, RH, operação e marca empregadora.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="painel-ajuste mt-4">
+        <span class="selo-ajuste">Princípio desta solução</span>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">Não gamificar por enfeite</h5>
+            <p class="mb-0">Cada missão precisa atacar uma lacuna concreta observada na triagem ou na entrevista para a vaga de logística.</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">Certificar o que tem valor</h5>
+            <p class="mb-0">O certificado não é brinde. Ele depende de conclusão real de trilha, evidência e pontuação mínima.</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="fw-bold mb-2">Aumentar empregabilidade</h5>
+            <p class="mb-0">A gamificação precisa gerar repertório útil para novas vagas, não apenas retenção dentro da plataforma.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="secao" id="visao">
+      <div class="container">
+        <h2 class="titulo-secao">📌 Visão prática da gamificação</h2>
+        <p class="subtitulo-secao">Nesta proposta, a gamificação entra <strong>depois da triagem</strong>, quando a plataforma já sabe em que o candidato aderiu e em que ele ficou abaixo do esperado para a operação logística. Isso evita uma gamificação genérica e permite uma experiência personalizada, útil e coerente com o mundo do trabalho.</p>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-search"></i></div>
+              <h5 class="fw-bold">Entrada</h5>
+              <p class="mb-0">A plataforma identifica lacunas como WMS, indicadores logísticos, roteirização, conferência e tratamento de ocorrências.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-map"></i></div>
+              <h5 class="fw-bold">Trilha</h5>
+              <p class="mb-0">Cada lacuna vira uma trilha com missões curtas, progressivas e claramente mensuráveis.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-stars"></i></div>
+              <h5 class="fw-bold">Recompensa</h5>
+              <p class="mb-0">O candidato acumula XP, desbloqueia badges e recebe certificado ao concluir a trilha.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-3">
+            <div class="card-box">
+              <div class="icone-box"><i class="bi bi-briefcase"></i></div>
+              <h5 class="fw-bold">Valor para o processo</h5>
+              <p class="mb-0">O RH e a liderança de operações passam a enxergar quem evoluiu, em que evoluiu e com que evidência essa evolução ocorreu.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="alerta-orientativo mt-4">
+          <strong>Em termos práticos:</strong> se o candidato não avançou porque faltaram competências específicas, a plataforma deixa de apenas rejeitar e passa a oferecer um caminho curto, mensurável e certificado para desenvolvimento.
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="modelo">
+      <div class="container">
+        <h2 class="titulo-secao">🧭 Modelo de funcionamento da gamificação</h2>
+        <p class="subtitulo-secao">A lógica abaixo mostra como o módulo de gamificação se conecta ao processo seletivo principal. Ele não substitui a seleção; ele complementa a experiência do candidato e melhora a qualidade do funil futuro.</p>
+
+        <div class="fluxo-linha">
+          <div class="evento">
+            <h5 class="fw-bold">1. A triagem identifica as lacunas</h5>
+            <p class="mb-0">Exemplo: o candidato teve boa aderência geral, mas ficou abaixo em WMS, indicadores logísticos e priorização de pedidos.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">2. O sistema recomenda uma trilha específica</h5>
+            <p class="mb-0">Em vez de uma devolutiva vaga, a plataforma sugere uma trilha chamada “Operação Logística na Prática”.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">3. Cada trilha contém missões curtas</h5>
+            <p class="mb-0">As missões podem envolver leitura guiada, microaula, quiz, estudo de caso e produção prática curta.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">4. O candidato acumula XP e badges</h5>
+            <p class="mb-0">O avanço não é decorativo: ele sinaliza progresso real e ajuda a manter engajamento sem infantilizar a experiência.</p>
+          </div>
+          <div class="evento">
+            <h5 class="fw-bold">5. A conclusão gera certificado e nova visibilidade</h5>
+            <p class="mb-0">Ao concluir a trilha, o candidato ganha um certificado interno e pode ser melhor ranqueado em vagas compatíveis no futuro.</p>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-4">
+            <div class="kpi-box">
+              <div class="valor">3</div>
+              <h5 class="mt-2">Lacunas detectadas</h5>
+              <p class="mb-0">WMS, indicadores logísticos e priorização operacional.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="kpi-box">
+              <div class="valor">4</div>
+              <h5 class="mt-2">Missões da trilha</h5>
+              <p class="mb-0">Microaulas, quiz, estudo de caso e registro operacional final.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="kpi-box">
+              <div class="valor">280</div>
+              <h5 class="mt-2">XP total</h5>
+              <p class="mb-0">Pontuação mínima para liberar certificado e badge principal.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Escolha de design importante</span>
+          <p class="mb-2">A melhor decisão aqui é usar trilhas curtas, claramente ligadas a competências do processo seletivo. Isso evita a sensação de “jogo solto” e fortalece a percepção de utilidade.</p>
+          <p class="mb-0">Em outras palavras: a gamificação precisa parecer evolução profissional, não passatempo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="simulacao">
+      <div class="container">
+        <h2 class="titulo-secao">🧪 Simulação prática da trilha do candidato</h2>
+        <p class="subtitulo-secao">Abaixo está uma simulação funcional. O candidato da vez é <strong>Lucas Andrade</strong>, que foi bem na triagem, mas ficou abaixo do desejado em três pontos para a vaga de logística. A página demonstra como a plataforma poderia converter isso em desenvolvimento prático.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Perfil inicial do candidato</h4>
+              <ul class="mb-0">
+                <li><strong>Nome:</strong> Lucas Andrade.</li>
+                <li><strong>Score original:</strong> 76,0.</li>
+                <li><strong>Forças:</strong> conferência, rotina de estoque, contato com transportadoras e disciplina operacional.</li>
+                <li><strong>Lacunas:</strong> WMS, indicadores logísticos e priorização de pedidos/ocorrências.</li>
+                <li><strong>Próximo passo sugerido:</strong> trilha “Operação Logística na Prática”.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="progresso-box">
+              <div class="row g-3 align-items-center">
+                <div class="col-md-4">
+                  <h5 class="fw-bold mb-1">Progresso da trilha</h5>
+                  <div class="display-6 fw-bold text-primary" id="txtPercentual">0%</div>
+                  <div class="text-secondary">Trilha concluída</div>
+                </div>
+                <div class="col-md-4">
+                  <h5 class="fw-bold mb-1">XP acumulado</h5>
+                  <div class="display-6 fw-bold text-primary" id="txtXp">0</div>
+                  <div class="text-secondary">de 280 XP</div>
+                </div>
+                <div class="col-md-4">
+                  <h5 class="fw-bold mb-1">Nível atual</h5>
+                  <span class="badge-nivel nivel-base" id="txtNivel">Explorador</span>
+                </div>
+              </div>
+
+              <div class="progress mt-4" role="progressbar" aria-label="Progresso da trilha" aria-valuemin="0" aria-valuemax="100">
+                <div id="barraTrilha" class="progress-bar" style="width: 0%">0%</div>
+              </div>
+
+              <div class="mt-4">
+                <strong>Badges desbloqueadas</strong>
+                <div class="mt-2">
+                  <span class="medalha" id="badgeAts"><i class="bi bi-lock-fill"></i> WMS em evolução</span>
+                  <span class="medalha" id="badgeIndicadores"><i class="bi bi-lock-fill"></i> Indicadores logísticos</span>
+                  <span class="medalha" id="badgeParecer"><i class="bi bi-lock-fill"></i> Priorização operacional</span>
+                  <span class="medalha" id="badgeCertificado"><i class="bi bi-lock-fill"></i> Trilha concluída</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-lg-6">
+            <div class="trilha-card">
+              <div class="trilha-topo">
+                <div>
+                  <h4 class="mb-1">Trilha: Operação Logística na Prática</h4>
+                  <p class="mb-0 text-secondary">Quatro missões curtas para fechar as lacunas detectadas.</p>
+                </div>
+                <span class="badge-nivel nivel-avanco">Trilha ativa</span>
+              </div>
+
+              <div class="missao" id="missao1">
+                <div class="cabecalho">
+                  <div>
+                    <h5 class="fw-bold mb-1">Missão 1: Navegação em WMS</h5>
+                    <p class="mb-0">Completar microaula e responder quiz sobre entradas, saídas, endereçamento e separação de pedidos.</p>
+                  </div>
+                  <span class="xp-badge">+60 XP</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" data-missao="1">Concluir missão</button>
+              </div>
+
+              <div class="missao" id="missao2">
+                <div class="cabecalho">
+                  <div>
+                    <h5 class="fw-bold mb-1">Missão 2: Indicadores logísticos</h5>
+                    <p class="mb-0">Interpretar OTIF, acuracidade de estoque, lead time de expedição e ocorrências de entrega.</p>
+                  </div>
+                  <span class="xp-badge">+70 XP</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" data-missao="2">Concluir missão</button>
+              </div>
+
+              <div class="missao" id="missao3">
+                <div class="cabecalho">
+                  <div>
+                    <h5 class="fw-bold mb-1">Missão 3: Estudo de caso operacional</h5>
+                    <p class="mb-0">Analisar pedidos urgentes, restrições de rota e prioridade de expedição para ordenar a operação.</p>
+                  </div>
+                  <span class="xp-badge">+80 XP</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" data-missao="3">Concluir missão</button>
+              </div>
+
+              <div class="missao" id="missao4">
+                <div class="cabecalho">
+                  <div>
+                    <h5 class="fw-bold mb-1">Missão 4: Registro de ocorrência e ação</h5>
+                    <p class="mb-0">Registrar uma ocorrência logística com causa provável, impacto no SLA e ação corretiva imediata.</p>
+                  </div>
+                  <span class="xp-badge">+70 XP</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" data-missao="4">Concluir missão</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Leitura pedagógica da trilha</h4>
+              <div class="table-responsive">
+                <table class="table table-bordered align-middle tabela-simples">
+                  <thead>
+                    <tr>
+                      <th>Lacuna</th>
+                      <th>Missão associada</th>
+                      <th>Entrega esperada</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>WMS</td>
+                      <td>Missão 1</td>
+                      <td>domínio básico de navegação, movimentação e consulta de pedidos</td>
+                    </tr>
+                    <tr>
+                      <td>Indicadores logísticos</td>
+                      <td>Missão 2</td>
+                      <td>interpretação mínima do desempenho da operação</td>
+                    </tr>
+                    <tr>
+                      <td>Priorização operacional</td>
+                      <td>Missão 3</td>
+                      <td>capacidade de ordenar pedidos e ações com critério</td>
+                    </tr>
+                    <tr>
+                      <td>Tratamento de ocorrência</td>
+                      <td>Missão 4</td>
+                      <td>registro claro da falha e da resposta operacional</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="mb-0"><strong>Resultado esperado:</strong> ao final da trilha, o candidato não apenas “ganhou pontos”. Ele demonstrou melhora exatamente nos pontos que reduziram sua aderência inicial.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao bg-white" id="certificado">
+      <div class="container">
+        <h2 class="titulo-secao">📜 Exemplo prático de certificado</h2>
+        <p class="subtitulo-secao">Um dos pontos levantados pela equipe foi a possibilidade de gerar um certificado que o candidato queira ter. A lógica abaixo mostra um certificado simples, útil e conectado à trilha concluída.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="certificado-box h-100">
+              <div class="certificado-selo">
+                <i class="bi bi-award-fill"></i>
+              </div>
+              <p class="text-uppercase fw-semibold mb-2 text-secondary">Certificado de trilha concluída</p>
+              <h3 class="fw-bold mb-3">Operação Logística na Prática</h3>
+              <p class="mb-2">Certificamos que <strong id="nomeCertificado">Lucas Andrade</strong> concluiu a trilha prática de desenvolvimento voltada a:</p>
+              <ul>
+                <li>uso básico de WMS;</li>
+                <li>interpretação de indicadores logísticos;</li>
+                <li>priorização de pedidos e atividades de expedição;</li>
+                <li>registro de ocorrência com ação corretiva objetiva.</li>
+              </ul>
+              <p class="mb-2"><strong>Carga estimada:</strong> 4 microetapas aplicadas.</p>
+              <p class="mb-2"><strong>XP obtido:</strong> <span id="xpCertificado">0</span> / 280.</p>
+              <p class="mb-0"><strong>Status:</strong> <span id="statusCertificado">Aguardando conclusão da trilha.</span></p>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="card-box h-100">
+              <h4 class="mb-3">Regras para emissão</h4>
+              <ul>
+                <li>concluir 100% das missões da trilha;</li>
+                <li>atingir o mínimo de 280 XP;</li>
+                <li>ter pelo menos uma entrega prática validada;</li>
+                <li>registrar data de conclusão e identificador do certificado.</li>
+              </ul>
+              <h5 class="fw-bold mt-4">Uso recomendado do certificado</h5>
+              <ul class="mb-0">
+                <li>painel do candidato dentro da plataforma;</li>
+                <li>anexo ao perfil em futuras candidaturas;</li>
+                <li>exportação para portfólio ou LinkedIn em fase posterior;</li>
+                <li>sinalização de evolução real para o RH e a operação.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-explicativa mt-4">
+          <span class="selo-ajuste">Critério importante</span>
+          <p class="mb-2">O certificado precisa ter credibilidade. Isso significa que ele deve representar uma trilha curta, objetiva e conectada a competência prática, e não apenas presença ou clique.</p>
+          <p class="mb-0">Se a plataforma banalizar o certificado, ele perde valor para o candidato, para o RH e para a liderança de operações.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="rh">
+      <div class="container">
+        <h2 class="titulo-secao">🧑‍💼 Leitura prática para RH, operação e negócio</h2>
+        <p class="subtitulo-secao">A gamificação só se sustenta no projeto se fizer sentido para o RH e para a liderança operacional. Abaixo está a leitura objetiva do valor de negócio desse módulo em um contexto de logística.</p>
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">O que o RH e a operação ganham</h4>
+              <ul class="mb-0">
+                <li>candidatos reengajados em vez de apenas descartados;</li>
+                <li>evidência de desenvolvimento entre uma candidatura e outra;</li>
+                <li>melhor qualidade no funil para vagas futuras de logística;</li>
+                <li>fortalecimento da devolutiva com proposta de evolução;</li>
+                <li>melhor percepção de justiça, transparência e preparo operacional no processo.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card-box h-100">
+              <h4 class="mb-3">O que a empresa deve monitorar</h4>
+              <ul class="mb-0">
+                <li>taxa de adesão às trilhas sugeridas;</li>
+                <li>taxa de conclusão por trilha;</li>
+                <li>candidatos que voltaram e melhoraram score após desenvolvimento;</li>
+                <li>trilhas mais úteis para cada família de vaga logística;</li>
+                <li>relação entre certificado emitido e avanço futuro em novos processos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">42%</div>
+              <h5 class="mt-2">Adesão estimada</h5>
+              <p class="mb-0">Percentual esperado de candidatos que iniciam a trilha após receber a recomendação.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">68%</div>
+              <h5 class="mt-2">Conclusão estimada</h5>
+              <p class="mb-0">Taxa de conclusão em trilhas curtas, quando há certificado e propósito claro.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">+9 pts</div>
+              <h5 class="mt-2">Ganho potencial</h5>
+              <p class="mb-0">Melhora média de aderência em recandidaturas, quando a trilha ataca lacunas reais.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="kpi-box">
+              <div class="valor">1</div>
+              <h5 class="mt-2">Certificado útil</h5>
+              <p class="mb-0">Cada trilha precisa gerar evidência concreta de evolução, e não diploma genérico.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-destaque mt-4">
+          <h4 class="mb-3">Síntese executiva da página</h4>
+          <p class="mb-2">A gamificação funciona melhor quando aparece como continuação inteligente da triagem. O candidato recebe uma devolutiva clara, entende sua lacuna logística, percorre uma trilha curta, acumula evidência prática e volta mais preparado.</p>
+          <p class="mb-0">Em resumo: a plataforma deixa de apenas selecionar quem já está pronto e passa também a desenvolver quem está perto do ideal para a operação logística, fortalecendo a experiência do candidato e a qualidade do funil futuro.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="mb-1 fw-semibold">Página prática de gamificação aplicada ao desenvolvimento do candidato</p>
+      <p class="mb-0">Material demonstrativo em HTML, CSS e JavaScript, alinhado ao mesmo layout visual das páginas anteriores.</p>
+    </div>
+  </footer>
+
+  <button class="btn btn-primary btn-topo" id="btnTopo" aria-label="Voltar ao topo">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const btnTopo = document.getElementById('btnTopo');
+    const totalXp = 280;
+    const missoes = {
+      1: { xp: 60, badge: 'badgeAts', titulo: 'WMS em evolução' },
+      2: { xp: 70, badge: 'badgeIndicadores', titulo: 'Indicadores logísticos' },
+      3: { xp: 80, badge: 'badgeParecer', titulo: 'Priorização operacional' },
+      4: { xp: 70, badge: 'badgeCertificado', titulo: 'Trilha concluída' }
+    };
+    const concluidas = new Set();
+
+    const txtPercentual = document.getElementById('txtPercentual');
+    const txtXp = document.getElementById('txtXp');
+    const txtNivel = document.getElementById('txtNivel');
+    const barraTrilha = document.getElementById('barraTrilha');
+    const xpCertificado = document.getElementById('xpCertificado');
+    const statusCertificado = document.getElementById('statusCertificado');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btnTopo.style.display = 'flex';
+      } else {
+        btnTopo.style.display = 'none';
+      }
+    });
+
+    btnTopo.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function atualizarPainel() {
+      let xpAtual = 0;
+
+      concluidas.forEach((id) => {
+        xpAtual += missoes[id].xp;
+      });
+
+      const percentual = Math.round((xpAtual / totalXp) * 100);
+      txtPercentual.textContent = `${percentual}%`;
+      txtXp.textContent = xpAtual;
+      barraTrilha.style.width = `${percentual}%`;
+      barraTrilha.textContent = `${percentual}%`;
+      barraTrilha.setAttribute('aria-valuenow', percentual);
+      xpCertificado.textContent = xpAtual;
+
+      if (xpAtual >= 280) {
+        txtNivel.textContent = 'Pronto para certificação';
+        txtNivel.className = 'badge-nivel nivel-pronto';
+        statusCertificado.textContent = 'Certificado liberado. Candidato apto a receber o selo da trilha.';
+      } else if (xpAtual >= 130) {
+        txtNivel.textContent = 'Em desenvolvimento';
+        txtNivel.className = 'badge-nivel nivel-avanco';
+        statusCertificado.textContent = 'Progresso relevante, mas ainda sem certificado.';
+      } else {
+        txtNivel.textContent = 'Explorador';
+        txtNivel.className = 'badge-nivel nivel-base';
+        statusCertificado.textContent = 'Aguardando conclusão da trilha.';
+      }
+    }
+
+    document.querySelectorAll('[data-missao]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.missao);
+
+        if (concluidas.has(id)) {
+          return;
+        }
+
+        concluidas.add(id);
+        btn.disabled = true;
+        btn.textContent = 'Missão concluída';
+        btn.classList.remove('btn-outline-primary');
+        btn.classList.add('btn-success');
+
+        const card = document.getElementById(`missao${id}`);
+        card.classList.add('concluida');
+
+        const badge = document.getElementById(missoes[id].badge);
+        badge.classList.add('desbloqueada');
+        badge.innerHTML = `<i class="bi bi-patch-check-fill"></i> ${missoes[id].titulo}`;
+
+        atualizarPainel();
+      });
+    });
+  </script>
+</body>
+</html>
